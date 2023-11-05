@@ -2,15 +2,20 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cstdlib>
 #include <filesystem> 
 #include <stdlib.h>
 #include <time.h>
+#include <ctime>
+#include <random>
+#include <algorithm>
 
 using namespace std;
 using namespace filesystem;
 struct Persona;
 struct ListaAmigos;
 struct ListaPecados;
+
 
 string obtenerRuta(string nombreDirectorio) {
     // Usar current_path desde el espacio de nombres std::filesystem
@@ -21,70 +26,40 @@ string obtenerRuta(string nombreDirectorio) {
     return DirNuevo;
 }
 
-string* cargarNombres(int cantidadNombres,int& totalNombres, string nombreArchivo) {
+string* cargarArchivo(int cantidadDatos, int& totalDatos, string nombreArchivo) {
+    // Se obtiene la ruta de la carpeta llamada "Datos".
     string rutaCarpeta = obtenerRuta("Datos");
+    
+    // Se construye la ruta completa del archivo a partir de la carpeta y el nombre del archivo.
     string rutaCompleta = rutaCarpeta + nombreArchivo;
-    cout << rutaCompleta << endl;
-    const int capacidad = cantidadNombres;
-    string* nombres = new string[capacidad];
-    ifstream archivo(rutaCompleta);
-    totalNombres = 0;
+    
+    // Se imprime la ruta completa del archivo en la consola.
+    cout << "Ruta del archivo: " << rutaCompleta << endl;
 
+    // Se define la capacidad máxima del arreglo basada en cantidadDatos.
+    const int capacidad = cantidadDatos;
+    
+    // Se crea un arreglo dinámico de strings con la capacidad especificada.
+    string* array = new string[capacidad];
+    
+    // Se abre el archivo ubicado en la ruta completa.
+    ifstream archivo(rutaCompleta);
+    
+    // Se inicializa el contador totalDatos a 0 para hacer seguimiento de la cantidad de datos cargados.
+    totalDatos = 0;
+
+    // Comprueba si el archivo se ha abierto correctamente.
     if (archivo.is_open()) {
-        while (totalNombres < capacidad && archivo >> nombres[totalNombres]) {
-            totalNombres++;
+        // Utiliza un bucle para leer líneas del archivo y almacenarlas en el arreglo.
+        while (totalDatos < capacidad && getline(archivo, array[totalDatos])) {
+            totalDatos++;
         }
-        archivo.close();
-    } else {
+        archivo.close();// Cierra el archivo después de leer todos los datos.
+    } else {// Si el archivo no se puede abrir, se imprime un mensaje de error en la consola.
         cerr << "No se pudo abrir el archivo." << std::endl;
     }
-
-    return nombres;
+    return array;  // Devuelve el puntero al arreglo dinámico que contiene los datos cargados desde el archivo.
 }
-
-string* cargarApellidos(int cantidadApellidos, int& totalApellidos, string nombreArchivo) {
-    string rutaCarpeta = obtenerRuta("Datos");
-    string rutaCompleta = rutaCarpeta + nombreArchivo;
-    cout << rutaCompleta << endl;
-    const int capacidad = cantidadApellidos;
-    string* apellidos = new string[capacidad];
-    ifstream archivo(rutaCompleta);
-    totalApellidos = 0;
-
-    if (archivo.is_open()) {
-        while (totalApellidos < capacidad && archivo >> apellidos[totalApellidos]) {
-            totalApellidos++;
-        }
-        archivo.close();
-    } else {
-        cerr << "No se pudo abrir el archivo." << std::endl;
-    }
-
-    return apellidos;
-}
-string* cargarPaises(int cantidadPaises, int& totalPaises, string nombreArchivo) {
-    string rutaCarpeta = obtenerRuta("Datos");
-    string rutaCompleta = rutaCarpeta + nombreArchivo;
-    cout << rutaCompleta << endl;
-    const int capacidad = cantidadPaises;
-    string* paises = new string[capacidad];
-    ifstream archivo(rutaCompleta);
-    totalPaises = 0;
-
-    if (archivo.is_open()) {
-        while (totalPaises < capacidad && getline(archivo, paises[totalPaises])) {
-            totalPaises++;
-        }
-        archivo.close();
-    } else {
-        cerr << "No se pudo abrir el archivo." << std::endl;
-    }
-
-    return paises;
-}
-
-
-
 
 /*
 struct Nodo{
@@ -113,7 +88,7 @@ struct Persona{
     string apellido;
     string pais;
     string creencia;
-    string Profesion;
+    string profesion;
     string fechaNaciemiento;
     string estado;
     //ListaAmigos amigos;
@@ -125,7 +100,7 @@ struct Persona{
         apellido = "";
         pais = "";
         creencia = "";
-        Profesion = "";
+        profesion = "";
         fechaNaciemiento = "";
         estado = "";
     }
@@ -136,26 +111,40 @@ struct Persona{
         cout << "Apellido: " << apellido << endl;
         cout << "Pais: " << pais << endl;
         cout << "Creencia: " << creencia << endl;
-        cout << "Profesion: " << Profesion << endl;
+        cout << "Profesion: " << profesion << endl;
         cout << "Fecha de Nacimiento: " << fechaNaciemiento << endl;
         cout << "Estado: " << estado << endl;
     }
 };
 
-void generarPersonas(int& totalPersonas, int personasAGenerar, Persona* personas, string* nombres, string* apellidos, string* paises) {
-    srand(time(NULL));
+void generarPersonas(int& totalPersonas, int personasAGenerar, Persona* personas, string* nombres, string* apellidos, string* paises, string* creencias, string* profesiones) {
+    int totalNombres = 1468;
+    int totalApellidos = 30;
+    int totalProfesiones = 20;
+    int totalCreencias = 10;
+    int totalPaises = 15;
+
+    // Asegurarse de que hay suficiente espacio en el arreglo personas
+
+    random_device rd; // Genera una semilla pseudoaleatoria
+    seed_seq seeder{rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd()}; // Secuencia de semilla basada en la semilla generada
+    mt19937 rng(seeder); // Generador de números aleatorios
+
     for (int i = 0; i < personasAGenerar; i++) {
-        Persona persona;
-        persona.id = i + 1;
-        persona.nombre = nombres[rand() % 1468];
-        persona.apellido = apellidos[rand() % 30];
-        persona.pais = paises[rand() % 15];
-        persona.creencia = "Catolico";
-        persona.Profesion = "Ingeniero";
-        persona.fechaNaciemiento = "01/01/2000";
-        persona.estado = "Vivo";
-        personas[i] = persona;
-        totalPersonas++;
+        int index = totalPersonas + i; // Calcular el índice actual
+
+        personas[index].id = index + 1;
+        personas[index].generacion = 1;
+        personas[index].nombre = nombres[rng() % totalNombres];
+        personas[index].apellido = apellidos[rng() % totalApellidos];
+        personas[index].pais = paises[rng() % totalPaises];
+        personas[index].creencia = creencias[rng() % totalCreencias];
+        personas[index].profesion = profesiones[rng() % totalProfesiones];
+        personas[index].fechaNaciemiento = "01/01/2000";
+        personas[index].estado = "Vivo";
     }
+    totalPersonas += personasAGenerar; // Actualizar el contador totalPersonas
 }
+
+
 
