@@ -1,0 +1,20 @@
+Médico
+Profesor/a
+Ingeniero/a en Computación
+Abogado/a
+Enfermero/a
+Arquitecto/a
+Diseñador/a gráfico/a
+Contador/a
+Barista
+Psicólogo/a
+Economista
+Farmacéutico/a
+Periodista
+Electricista
+Chef
+Mecánico/a
+Agricultor/a
+Peluquero/a
+Arqueólogo/a
+Guia de Turismo
