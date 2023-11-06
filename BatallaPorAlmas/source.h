@@ -14,6 +14,9 @@ using namespace std;
 using namespace filesystem;
 struct Persona;
 struct ListaAmigos;
+struct Nodo;
+struct Mundo;
+
 string obtenerHoraActual();
 string obtenerRuta(string nombreDirectorio);
 string* cargarArchivo(int cantidadDatos, int& totalDatos, string nombreArchivo);
@@ -21,7 +24,7 @@ void generarPersonas(int& totalPersonas, int& generacion, int personasAGenerar, 
 void cargarAmigos(Persona* personas, int totalPersonas);
 
 string obtenerHoraActual(){
-    time_t tiempoActual = time(nullptr);
+    time_t tiempoActual = time(NULL);
     struct tm *tiempo = localtime(&tiempoActual);
 
     int horas = tiempo->tm_hour;
@@ -117,9 +120,26 @@ struct Persona {
         profesion = "";
         fechaNacimiento = "";
         estado = "";
-        amigos = nullptr;
+        amigos = new ListaAmigos();
     }
+    void publicarEnRedSocial(int redSocial){
+        string nombreRedes[] = {"Tinder", "iFood", "Twitter", "Instagram", "Facebook", "LinkedIn", "Netflix"};
+        string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
+        cout << "El humano: " << id << ". " << nombre << " " << apellido << " Ha hecho una nueva publicacion en: " << nombreRedes[redSocial]<< endl;
+        cout <<" Fanastimo de: " << nombreRedes[redSocial] << " = " << obtenerFavoritismo(redSocial) << endl;
+        Nodo * aux = amigos->amigo;
+        //cout << aux->persona->nombre;
 
+    }
+    int obtenerFavoritismo(int redSocial){
+        int favoritismo = 1;
+        for(int i = 0; i < 7; i++){
+            if(redesSociales[redSocial] > redesSociales[i]){
+                favoritismo++;
+            }
+        }
+        return favoritismo;
+    }
     void imprimir() {
         if (this->id == 0) {
             cout << "No hay datos" << endl;
@@ -164,7 +184,7 @@ void generarPersonas(int& totalPersonas, int& generacion, int personasAGenerar, 
         personas[index].profesion = profesiones[rng() % totalProfesiones];
         personas[index].fechaNacimiento = obtenerHoraActual();
         personas[index].estado = "Vivo";
-        personas[index].amigos = nullptr;
+        personas[index].amigos = NULL;
         for (int j = 0; j < 7; j++) {
             personas[index].redesSociales[j] = rand()%(100-0);
         }
@@ -187,20 +207,20 @@ struct ListaAmigos {
     Nodo* amigo;
 
     ListaAmigos() {
-        persona = nullptr;
-        amigo = nullptr;
+        persona = NULL;
+        amigo = NULL;
     }
 
     void agregar(Persona* persona) {
         Nodo* nuevo = new Nodo();
         nuevo->persona = persona;
-        nuevo->siguiente = nullptr;
+        nuevo->siguiente = NULL;
 
-        if (amigo == nullptr) {
+        if (amigo == NULL) {
             amigo = nuevo;
         } else {
             Nodo* aux = amigo;
-            while (aux->siguiente != nullptr) {
+            while (aux->siguiente != NULL) {
                 aux = aux->siguiente;
             }
             aux->siguiente = nuevo;
@@ -208,20 +228,18 @@ struct ListaAmigos {
     }
 
     void imprimir() {
-        if (amigo == nullptr) {
+        if (amigo == NULL) {
             cout << "No hay amigos" << endl;
             return;
         } else {
             Nodo* aux = amigo;
-            while (aux != nullptr) {
+            while (aux != NULL) {
                 cout << aux->persona->id << ". " << aux->persona->nombre << " " << aux->persona->apellido << endl;
                 aux = aux->siguiente;
             }
         }
     }
 };
-
-// Función para cargar amigos para cada persona en función de ciertas condiciones.
 void cargarAmigos(Persona* personas, int totalPersonas, int& humanosConAmigos) {
     int index = humanosConAmigos;
     for (int i = index; i < totalPersonas; i++) {

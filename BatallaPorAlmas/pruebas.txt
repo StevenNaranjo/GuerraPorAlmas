@@ -75,3 +75,18 @@
     delete[] paises;
     delete[] creencias;
     delete[] profesiones;
+
+
+            for(int i = 0; i < 7; i++){
+            for(int j = 0; j < 7; j++){
+                if(redesSociales[i].prioridad > redesSociales[j].prioridad){
+                    RedSocial aux = redesSociales[i];
+                    redesSociales[i] = redesSociales[j];
+                    redesSociales[j] = aux;
+                }
+            }
+        }
+
+
+
+        
