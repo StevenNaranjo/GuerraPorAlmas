@@ -99,7 +99,12 @@ struct Persona {
     string profesion;
     string fechaNacimiento;
     string estado;
+    string demonio;
+    string angel;
+    string horaMuerte;
     ListaAmigos* amigos;
+    int* redesSociales = new int[7]; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
+    int* pecados = new int[7];       //[Lujuria, Gula, Ira,     Soberbia, Envidia,   Avaricia, Pereza]
 
     Persona() {
         id = 0;
@@ -159,6 +164,13 @@ void generarPersonas(int& totalPersonas, int& generacion, int personasAGenerar, 
         personas[index].profesion = profesiones[rng() % totalProfesiones];
         personas[index].fechaNacimiento = obtenerHoraActual();
         personas[index].estado = "Vivo";
+        personas[index].amigos = nullptr;
+        for (int j = 0; j < 7; j++) {
+            personas[index].redesSociales[j] = rand()%(100-0);
+        }
+        for (int j = 0; j < 7; j++) {
+            personas[index].pecados[j] = 0;
+        }
     }
     generacion++;
     totalPersonas += personasAGenerar; // Actualizar el contador totalPersonas
