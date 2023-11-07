@@ -7,7 +7,7 @@ Tareas de ayer:
 [X]Hacer que los humanos puedan publicar en redes sociales.
 [X]HAcer los structs del RedSocial y pecados
 [X]Generar el "Arbol de la vida"
-[]Hacer programar para mandar correos.
+[X]Hacer programar para mandar correos.
 
 
 Tareas de hoy:
