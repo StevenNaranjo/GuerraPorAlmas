@@ -4,10 +4,10 @@ optimizar generarAMigos
 
 Tareas de hoy:
 
-Hacer que los humanos puedan publicar en redes sociales.
-HAcer los structs del RedSocial y pecados
-Generar el "Arbol de la vida"
-Hacer programar para mandar correos.
+[X]Hacer que los humanos puedan publicar en redes sociales.
+[X]HAcer los structs del RedSocial y pecados
+[]Generar el "Arbol de la vida"
+[]Hacer programar para mandar correos.
 
 
 Generar Demonios con su arreglo y heaps 

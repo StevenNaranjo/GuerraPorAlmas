@@ -1,9 +1,10 @@
 #include "source.h"
+
 #include <chrono>
 int main() {
     auto tiempoInicio = std::chrono::high_resolution_clock::now();
-    Mundo* world = new Mundo(100000);
-    world->generarPersonasMundo(5000);
+    Mundo* world = new Mundo(1000000);
+    world->generarPersonasMundo(10000);
     world->cargarAmigosMundo();
     auto tiempoFin = std::chrono::high_resolution_clock::now();
     // Calcula la duración en milisegundos
@@ -22,7 +23,11 @@ int main() {
     }
     cout << endl;
     
-    world->personas[0].publicarEnRedSocial(0);
+    world->publicarEnRedSocial(0, world->personas[0]);
+    world->publicarEnRedSocial(0, world->personas[0]);
+    world->publicarEnRedSocial(0, world->personas[0]);
+    cout << "------------------" << endl;
+    world->publicarEnRedSocial(1, world->personas[1]);
     //world->personas[0].publicarEnRedSocial(1);
     //world->imprimirPersonas();
     //world->generarPersonasMundo(100);
@@ -31,6 +36,12 @@ int main() {
     //world->cargarAmigosMundo(); 
     //world->imprimirPersonas();
     world->personas[0].amigos->imprimir();
+    cout << world->personas[0].cantidadAmigos << endl;
+    cout << "_________________1_________" << endl;
+    world->personas[1].amigos->imprimir();
+    cout << world->personas[1].cantidadAmigos << endl;
+    cout << "_________________2_________" << endl;
+    world->personas[0].imprimir();
 
     delete world;
 

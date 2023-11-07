@@ -120,17 +120,9 @@ struct Persona {
         profesion = "";
         fechaNacimiento = "";
         estado = "";
-        amigos = new ListaAmigos();
+        amigos = NULL;
     }
-    void publicarEnRedSocial(int redSocial){
-        string nombreRedes[] = {"Tinder", "iFood", "Twitter", "Instagram", "Facebook", "LinkedIn", "Netflix"};
-        string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
-        cout << "El humano: " << id << ". " << nombre << " " << apellido << " Ha hecho una nueva publicacion en: " << nombreRedes[redSocial]<< endl;
-        cout <<" Fanastimo de: " << nombreRedes[redSocial] << " = " << obtenerFavoritismo(redSocial) << endl;
-        Nodo * aux = amigos->amigo;
-        //cout << aux->persona->nombre;
 
-    }
     int obtenerFavoritismo(int redSocial){
         int favoritismo = 1;
         for(int i = 0; i < 7; i++){
@@ -241,28 +233,39 @@ struct ListaAmigos {
     }
 };
 void cargarAmigos(Persona* personas, int totalPersonas, int& humanosConAmigos) {
-    int index = humanosConAmigos;
-    for (int i = index; i < totalPersonas; i++) {
-        int totalAmigos = personas[i].cantidadAmigos;
-        int j = 0;
-        int contador = 0;
-        humanosConAmigos ++;
-        personas[i].amigos = new ListaAmigos();
-        while (j < totalAmigos && contador < totalPersonas) {
-            
-            Persona persona = personas[contador];
-
-            if (persona.id == personas[i].id) {
-                //cout << "La persona no puede ser amiga de sí misma" << endl;
-            } else if (persona.pais == personas[i].pais && (persona.apellido == personas[i].apellido || persona.profesion == personas[i].profesion || persona.creencia == personas[i].creencia)) {
-                //cout << "La persona ha hecho un nuevo amigo/a" << endl;
-                //cout << persona.id << ". " << persona.nombre << " " << persona.apellido << endl;
-                personas[i].amigos->agregar(&personas[j]);
-                //personas[i].amigos->imprimir();
-                j++;
-            }
-            contador++;
+    for (int i = 0; i < totalPersonas; i++) {
+        if (personas[i].amigos != NULL) {
+            // Si la persona ya tiene amigos, omitir esta iteración.
+            continue;
         }
+
+        int totalAmigos = personas[i].cantidadAmigos;
+        int amigosAgregados = 0; // Contador de amigos agregados
+
+        personas[i].amigos = new ListaAmigos();
+
+        for (int j = i + 1; j < totalPersonas && amigosAgregados < totalAmigos; j++) {
+            if (personas[j].amigos != NULL) {
+                // Omitir personas que ya tienen amigos.
+                continue;
+            }
+            
+            // Comprueba si esta persona es elegible para ser amiga de la persona actual
+            if (personas[i].pais == personas[j].pais &&
+                (personas[i].apellido == personas[j].apellido || personas[i].profesion == personas[j].profesion || personas[i].creencia == personas[j].creencia)) {
+                // Agregar esta persona como amiga
+                personas[i].amigos->agregar(&personas[j]);
+                amigosAgregados++;
+
+                // Agregar la persona actual como amiga de la otra persona
+                if (personas[j].amigos == NULL) {
+                    personas[j].amigos = new ListaAmigos();
+                }
+                personas[j].amigos->agregar(&personas[i]);
+            }
+        }
+
+        humanosConAmigos++;
     }
 }
 
@@ -301,6 +304,22 @@ struct Mundo{
     void imprimirPersonas(){
         for (int i = 0; i < totalPersonas; i++) {
             personas[i].imprimir();
+        }
+    }
+    void publicarEnRedSocial(int redSocial, Persona persona){
+        string nombreRedes[] = {"Tinder", "iFood", "Twitter", "Instagram", "Facebook", "LinkedIn", "Netflix"};
+        string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
+        cout << "El humano: " << persona.id << ". " << persona.nombre << " " << persona.apellido << " Ha hecho una nueva publicacion en: " << nombreRedes[redSocial]<< endl;
+        cout <<" Fanastimo de: " << nombreRedes[redSocial] << " = " << persona.obtenerFavoritismo(redSocial) << endl;
+        Nodo * aux = persona.amigos->amigo;
+        while(aux != NULL){
+            aux->persona->pecados[redSocial] += aux->persona->obtenerFavoritismo(redSocial);
+            cout << "El humano: " << aux->persona->id << ". " << aux->persona->nombre << " " << aux->persona->apellido << " Ha obtenido un nuevo pecado: " << pecados[redSocial] << endl;
+            for(int i = 0;i<7; i++){
+                cout << " " << pecados[i] << ": " << aux->persona->pecados[i];
+            }
+            cout << endl;
+            aux = aux->siguiente;
         }
     }
 };
