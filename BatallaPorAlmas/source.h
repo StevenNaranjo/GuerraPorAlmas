@@ -9,6 +9,7 @@
 #include <ctime>
 #include <random>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 using namespace filesystem;
@@ -268,7 +269,60 @@ void cargarAmigos(Persona* personas, int totalPersonas, int& humanosConAmigos) {
         humanosConAmigos++;
     }
 }
+struct TreeNode {
+    Persona* persona;
+    TreeNode* left;
+    TreeNode* right;
 
+    TreeNode(Persona* p) : persona(p), left(nullptr), right(nullptr) {}
+};
+
+TreeNode* construirABB(int left, int right, Persona* personas) {
+    if (left > right) return nullptr;
+
+    int mid = (left + right) / 2;
+    TreeNode* node = new TreeNode(&personas[mid]);
+    node->left = construirABB(left, mid - 1, personas);
+    node->right = construirABB(mid + 1, right, personas);
+
+    return node;
+}
+
+int calcularCantidadNiveles(int totalNodos) {
+    int niveles = 0;
+    int potencia = 1;
+    while (potencia < totalNodos) {
+        potencia *= 2;
+        niveles++;
+    }
+    return niveles;
+}
+
+void imprimirUltimoNivel(TreeNode* root, int nivel, int nivelActual, int* indices) {
+    if (!root) return;
+
+    if (nivelActual == nivel) {
+        // Imprimir información de la persona
+        cout << "ID: " << root->persona->id << " Nombre: " << root->persona->nombre << " Apellido: " << root->persona->apellido << endl;
+    }
+
+    imprimirUltimoNivel(root->left, nivel, nivelActual + 1, indices);
+    imprimirUltimoNivel(root->right, nivel, nivelActual + 1, indices);
+}
+Persona* buscarPersonaPorID(TreeNode* root, int targetID, Persona* personas) {
+    TreeNode* current = root;
+    while (current != nullptr) {
+        int currentID = current->persona->id;
+        if (currentID == targetID) {
+            return current->persona;
+        } else if (currentID > targetID) {
+            current = current->left;
+        } else {
+            current = current->right;
+        }
+    }
+    return nullptr; // La persona no se encontró en el árbol.
+}
 struct Mundo{
     Persona* personas;
     int totalPersonas;
@@ -279,11 +333,15 @@ struct Mundo{
     int totalProfesiones;
     int totalCreencias;
     int totalPaises;
+    int cantidadEnArbol = totalPersonas * 0.01;
     string* nombres;
     string* apellidos;
     string* paises;
     string* creencias;
     string* profesiones;
+
+// Calcular la cantidad de niveles necesarios
+
     Mundo(int tamañoMundo){
         totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
         generacion = 0;

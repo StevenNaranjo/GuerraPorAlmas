@@ -1,15 +1,25 @@
 Unificar funcion de generar amigos con generar personas
 Hacer struct de pecados
-optimizar generarAMigos
+Solucionar IMprimir ultimo nivel del arbol
 
-Tareas de hoy:
+Tareas de ayer:
 
 [X]Hacer que los humanos puedan publicar en redes sociales.
 [X]HAcer los structs del RedSocial y pecados
-[]Generar el "Arbol de la vida"
+[X]Generar el "Arbol de la vida"
 []Hacer programar para mandar correos.
 
 
-Generar Demonios con su arreglo y heaps 
-Algoritmo de condenacion
+Tareas de hoy:
+[]Generar representacion de los Demonios con su arreglo y heaps 
+[]Algoritmo de condenacion
+[]Bitacora de condenacion.
+[] EL infierno
+[]Prototipo del menu, con un bucle, para ir realizando pruebas.
+
+Tareas de mañana:
+[]Arbol triario de angeles
+[]Log de salvacion
+[]Generar funcion HASH
+[]Consultas
 Log de condenacion.

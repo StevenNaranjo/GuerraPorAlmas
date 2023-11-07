@@ -4,7 +4,7 @@
 int main() {
     auto tiempoInicio = std::chrono::high_resolution_clock::now();
     Mundo* world = new Mundo(1000000);
-    world->generarPersonasMundo(10000);
+    world->generarPersonasMundo(500);
     world->cargarAmigosMundo();
     auto tiempoFin = std::chrono::high_resolution_clock::now();
     // Calcula la duración en milisegundos
@@ -14,7 +14,8 @@ int main() {
     // Imprime la duración en milisegundos
     cout <<"\n"<< world->totalPersonas << endl;
     std::cout << "La función miFuncion() tardó " << duracion.count() << " milisegundos en ejecutarse." << std::endl;
-    
+    world->generarPersonasMundo(500);
+    world->cargarAmigosMundo();
     for(int i = 0; i < world->totalPersonas; i++){
         cout << world->personas[i].id << ". " << world->personas[i].nombre << endl;
     }
@@ -42,7 +43,15 @@ int main() {
     cout << world->personas[1].cantidadAmigos << endl;
     cout << "_________________2_________" << endl;
     world->personas[0].imprimir();
+    int totalNodos = world->totalPersonas / 100 + 1; // 1% de totalPersonas + 1
+    int niveles = calcularCantidadNiveles(totalNodos);
+    TreeNode* root = construirABB(0, world->totalPersonas - 1, world->personas);
 
+    // Imprimir información del último nivel del árbol
+    int* indices = new int[totalNodos];
+    imprimirUltimoNivel(root, niveles - 1, 0, indices);
+    buscarPersonaPorID(root, 5, world->personas)->imprimir();
+    buscarPersonaPorID(root, 1000, world->personas)->imprimir();
     delete world;
 
     return 0;
