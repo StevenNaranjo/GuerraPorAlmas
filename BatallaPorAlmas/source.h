@@ -10,6 +10,8 @@
 #include <random>
 #include <algorithm>
 #include <queue>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 using namespace filesystem;
@@ -17,6 +19,11 @@ struct Persona;
 struct ListaAmigos;
 struct Nodo;
 struct Mundo;
+struct Demonio;
+struct Heap;
+struct NodoHeap;
+struct ListaHeaps;
+
 
 string obtenerHoraActual();
 string obtenerRuta(string nombreDirectorio);
@@ -319,6 +326,145 @@ Persona* buscarPersonaPorID(TreeNode* root, int targetID, Persona* personas) {
     }
     return nullptr; // La persona no se encontró en el árbol.
 }
+
+struct Heap {
+    int capacidad;
+    int tamano;
+    int pecadoCapital;
+    vector<Persona*> personas; // Usamos punteros a Persona
+
+    Heap(int pecado, int capacidad) {
+        this->capacidad = capacidad;
+        tamano = 0;
+        pecadoCapital = pecado;
+        personas.resize(capacidad, nullptr); // Resize el vector a la capacidad dada
+    }
+
+void insertar(Persona* persona) {
+    if (tamano == capacidad) {
+        cout << "El heap está lleno." << endl;
+        return;
+    }
+
+    int indice = tamano;
+    personas[tamano++] = persona;
+
+    // Mantener la propiedad de max-heap
+    while (indice > 0) {
+        int padre = (indice - 1) / 2;
+        if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
+            // Intercambiar con el padre si el pecado es mayor
+            swap(personas[indice], personas[padre]);
+            indice = padre;
+        } else {
+            break;
+        }
+    }
+}
+
+    void imprimirHeap() {
+        if (tamano == 0) {
+            cout << "El heap está vacío." << endl;
+            return;
+        }
+        for (int i = 0; i < tamano; i++) {
+            cout << "Persona " << personas[i]->id << ": ";
+            cout << personas[i]->nombre << " " << personas[i]->apellido << endl;
+            cout << personas[i]->pecados[pecadoCapital] << endl;
+        }
+    }
+};
+struct NodoHeap {
+    string apellido;
+    string pais;
+    Heap* heap;
+    NodoHeap* siguiente;
+
+    NodoHeap(Heap* h, string apelidoFamilia, string paisFamilia){
+        heap = h;
+        apellido = apelidoFamilia;
+        pais = paisFamilia;
+        siguiente = nullptr;
+    }
+};
+
+struct ListaHeaps {
+    NodoHeap* heap;
+
+    ListaHeaps() : heap(nullptr) {}
+
+    void agregar(Heap* heap, string apellido, string pais) {
+        NodoHeap* nuevo = new NodoHeap(heap,apellido,pais);
+
+        if (this->heap == nullptr) {
+            this->heap = nuevo;
+        } else {
+            NodoHeap* aux = this->heap;
+            while (aux->siguiente != nullptr) {
+                aux = aux->siguiente;
+            }
+            aux->siguiente = nuevo;
+        }
+    }
+};
+struct Demonio {
+    string nombre;
+    int pecadoCapital; // Un valor entre 0 y 6 para los 7 pecados capitales
+    int totalPersonas;
+    Persona* personas;
+    ListaHeaps* familias; // Lista simple de familias relacionadas con este demonio
+    Demonio(){
+        nombre = "";
+        pecadoCapital = 0;
+        totalPersonas = 0;
+        personas = nullptr;
+        familias = nullptr;
+    }
+    Demonio(string nombre,int pecado, Persona* personas, int totalPersonas){
+        this->nombre = nombre;
+        this->totalPersonas = totalPersonas;
+        pecadoCapital = pecado;
+        this->personas = personas;
+        familias = new ListaHeaps();
+    }
+    NodoHeap* encontrarFamilia(string apellido, string pais) {
+        NodoHeap* familia = familias->heap;
+        
+        while (familia != nullptr) {
+            if (familia->apellido == apellido && familia->pais == pais) {
+                return familia;
+            }
+            familia = familia->siguiente;
+        }
+        
+        return nullptr; // No se encontró la familia
+    }
+void imprimirHeaps() {
+    cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
+
+    NodoHeap* familia = familias->heap;
+    while (familia != nullptr) {
+        cout << "Familia: " << familia->apellido << " (País: " << familia->pais << ")" << endl;
+        familia->heap->imprimirHeap();
+        cout << "-------------------------------------" << endl;
+        familia = familia->siguiente;
+    }
+
+    if (!familias->heap) {
+        // Comentario de depuración en caso de que no haya familias
+        cout << "No hay familias para mostrar. Motivo: No se ha condenado a nadie." << endl;
+    }
+
+    cout << "=====================================" << endl;
+}
+};
+
+
+
+
+
+
+
 struct Mundo{
     Persona* personas;
     int totalPersonas;
@@ -330,6 +476,7 @@ struct Mundo{
     int totalCreencias;
     int totalPaises;
     int cantidadEnArbol = totalPersonas * 0.01;
+    Demonio** demonios;
     string* nombres;
     string* apellidos;
     string* paises;
@@ -348,6 +495,14 @@ struct Mundo{
         paises = cargarArchivo(15, totalPaises, "/paises.txt");
         creencias = cargarArchivo(10, totalCreencias, "/creencias.txt");
         profesiones = cargarArchivo(20, totalProfesiones, "/profesiones.txt");
+        demonios = new Demonio*[7]; // Reservamos espacio para 7 demonios
+        demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
+        demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
+        demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
+        demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
+        demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
+        demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);    
     }
     void generarPersonasMundo(int personasAGenerar){
         generarPersonas(totalPersonas, generacion, personasAGenerar, personas, nombres, apellidos, paises, creencias, profesiones);
@@ -376,6 +531,47 @@ struct Mundo{
             aux = aux->siguiente;
         }
     }
+    void condenacion(Demonio* demonio, Persona* personas, int totalPersonas) {
+    // Crear un heap de máximos para ordenar a las personas por su pecado capital
+    Heap maxHeap(demonio->pecadoCapital, totalPersonas);
+
+    // Insertar todas las personas en el heap
+    for (int i = 0; i < totalPersonas; i++) {
+        maxHeap.insertar(&personas[i]);
+    }
+
+    // Calcular el número de personas a condenar (el 5% del total de humanos)
+    int numPersonasCondenadas = totalPersonas * 0.05;
+
+    // Crear una lista de las personas condenadas
+    ListaHeaps* condenados = new ListaHeaps();
+
+    // Extraer las personas más pecadoras del heap y agregarlas a la lista de condenados
+    for (int i = 0; i < numPersonasCondenadas; i++) {
+        Persona* personaCondenada = maxHeap.personas[0];
+        maxHeap.personas[0] = maxHeap.personas[maxHeap.tamano - 1];
+        maxHeap.tamano--;
+
+        // Actualizar el estado, hora de muerte y demonio de la persona condenada
+        personaCondenada->estado = "Condenado";
+        personaCondenada->horaMuerte = obtenerHoraActual();
+        personaCondenada->demonio = demonio->nombre;
+
+        // Encontrar o crear la familia correspondiente a la persona condenada
+        NodoHeap* familia = demonio->encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+        if (familia == nullptr) {
+            Heap* nuevoHeap = new Heap(demonio->pecadoCapital, totalPersonas);
+            demonio->familias->agregar(nuevoHeap, personaCondenada->apellido, personaCondenada->pais);
+            familia = demonio->encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+        }
+
+        // Insertar la persona condenada en la familia correspondiente
+        familia->heap->insertar(personaCondenada);
+    }
+
+    // Imprimir las familias y los condenados correspondientes al demonio
+    demonio->imprimirHeaps();
+}
 };
 
 

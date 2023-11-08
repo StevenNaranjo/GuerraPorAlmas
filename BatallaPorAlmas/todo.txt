@@ -12,8 +12,8 @@ Tareas de ayer:
 
 
 Tareas de hoy:
-[]Generar representacion de los Demonios con su arreglo y heaps 
-[]Algoritmo de condenacion
+[X]Generar representacion de los Demonios con su arreglo y heaps 
+[X]Algoritmo de condenacion
 []Bitacora de condenacion.
 [] EL infierno
 []Prototipo del menu, con un bucle, para ir realizando pruebas.
