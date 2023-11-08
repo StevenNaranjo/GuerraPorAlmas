@@ -82,10 +82,8 @@ int main() {
     world->personas[1].amigos->imprimir();
     //world->personas[0].amigos->imprimir();
     //cout << world->personas[0].cantidadAmigos << endl;
-    cout << world->demonios[0]->nombre<<endl;
-    world->condenacion(world->demonios[0],world->personas, world->totalPersonas);
+    world->demonios[0]->condenacion();
     world->demonios[0]->imprimirHeaps();
-
     delete world;
 
     return 0;

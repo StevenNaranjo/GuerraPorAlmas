@@ -339,7 +339,6 @@ struct Heap {
         pecadoCapital = pecado;
         personas.resize(capacidad, nullptr); // Resize el vector a la capacidad dada
     }
-
 void insertar(Persona* persona) {
     if (tamano == capacidad) {
         cout << "El heap está lleno." << endl;
@@ -349,7 +348,7 @@ void insertar(Persona* persona) {
     int indice = tamano;
     personas[tamano++] = persona;
 
-    // Mantener la propiedad de max-heap
+    // Realizar una clasificación directa (sorting) en el vector
     while (indice > 0) {
         int padre = (indice - 1) / 2;
         if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
@@ -358,6 +357,15 @@ void insertar(Persona* persona) {
             indice = padre;
         } else {
             break;
+        }
+    }
+
+    // Realizar una clasificación directa en el vector
+    for (int i = 0; i < tamano; i++) {
+        for (int j = i + 1; j < tamano; j++) {
+            if (personas[i]->pecados[pecadoCapital] < personas[j]->pecados[pecadoCapital]) {
+                swap(personas[i], personas[j]);
+            }
         }
     }
 }
@@ -439,6 +447,38 @@ struct Demonio {
         
         return nullptr; // No se encontró la familia
     }
+void condenacion() {
+    // 1. Obtener todos los humanos en el heap
+    Heap* heapHumanos = new Heap(pecadoCapital, 100000);
+    for (int i = 0; i < 100000; i++) {
+        heapHumanos->insertar(&personas[i]);
+    }
+    int cantidadAEnviar = totalPersonas * 0.05;
+    cout<< cantidadAEnviar << endl;
+    // 2. Extraer los humanos más pecadores del heap
+    for (int i = 0; i < cantidadAEnviar; i++) {
+        Persona* personaCondenada = heapHumanos->personas[0];
+        heapHumanos->personas[0] = heapHumanos->personas[heapHumanos->tamano - 1];
+        heapHumanos->tamano--;
+        
+        // Actualizar el estado, hora de muerte y demonio de la persona condenada
+        personaCondenada->estado = "Condenado";
+        personaCondenada->horaMuerte = obtenerHoraActual();
+        personaCondenada->demonio = nombre;
+
+        // Encontrar o crear la familia correspondiente a la persona condenada
+        NodoHeap* familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+        if (familia == nullptr) {
+            Heap* nuevoHeap = new Heap(pecadoCapital, totalPersonas);
+            familias->agregar(nuevoHeap, personaCondenada->apellido, personaCondenada->pais);
+            familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+        }
+
+        // Insertar la persona condenada en la familia correspondiente
+        familia->heap->insertar(personaCondenada);
+    }
+    heapHumanos->imprimirHeap();
+}
 void imprimirHeaps() {
     cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
 
@@ -531,7 +571,7 @@ struct Mundo{
             aux = aux->siguiente;
         }
     }
-    void condenacion(Demonio* demonio, Persona* personas, int totalPersonas) {
+void condenacion(Demonio* demonio, Persona* personas, int totalPersonas) {
     // Crear un heap de máximos para ordenar a las personas por su pecado capital
     Heap maxHeap(demonio->pecadoCapital, totalPersonas);
 
