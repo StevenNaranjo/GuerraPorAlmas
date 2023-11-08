@@ -107,8 +107,8 @@ struct Persona {
     string angel;
     string horaMuerte;
     ListaAmigos* amigos;
-    int* redesSociales = new int[7]; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
-    int* pecados = new int[7];       //[Lujuria, Gula, Ira,     Soberbia, Envidia,   Avaricia, Pereza]
+    int* redesSociales; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
+    int* pecados;       //[Lujuria, Gula, Ira,     Soberbia, Envidia,   Avaricia, Pereza]
 
     Persona() {
         id = 0;
@@ -122,6 +122,8 @@ struct Persona {
         fechaNacimiento = "";
         estado = "";
         amigos = NULL;
+        redesSociales = new int[7]; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
+        pecados = new int[7];  
     }
 
     int obtenerFavoritismo(int redSocial){
@@ -234,6 +236,8 @@ struct ListaAmigos {
     }
 };
 void cargarAmigos(Persona* personas, int totalPersonas, int& humanosConAmigos) {
+    int index = humanosConAmigos;
+    //cout << humanosConAmigos<<index << endl;
     for (int i = 0; i < totalPersonas; i++) {
         if (personas[i].amigos != NULL) {
             // Si la persona ya tiene amigos, omitir esta iteración.
@@ -245,27 +249,19 @@ void cargarAmigos(Persona* personas, int totalPersonas, int& humanosConAmigos) {
 
         personas[i].amigos = new ListaAmigos();
 
-        for (int j = i + 1; j < totalPersonas && amigosAgregados < totalAmigos; j++) {
-            if (personas[j].amigos != NULL) {
-                // Omitir personas que ya tienen amigos.
+        for (int j = index; j < totalPersonas && amigosAgregados < totalAmigos; j++) {
+            
+            if(personas[i].id == personas[j].id){
                 continue;
             }
-            
             // Comprueba si esta persona es elegible para ser amiga de la persona actual
             if (personas[i].pais == personas[j].pais &&
                 (personas[i].apellido == personas[j].apellido || personas[i].profesion == personas[j].profesion || personas[i].creencia == personas[j].creencia)) {
                 // Agregar esta persona como amiga
                 personas[i].amigos->agregar(&personas[j]);
                 amigosAgregados++;
-
-                // Agregar la persona actual como amiga de la otra persona
-                if (personas[j].amigos == NULL) {
-                    personas[j].amigos = new ListaAmigos();
-                }
-                personas[j].amigos->agregar(&personas[i]);
             }
         }
-
         humanosConAmigos++;
     }
 }
@@ -381,3 +377,6 @@ struct Mundo{
         }
     }
 };
+
+
+

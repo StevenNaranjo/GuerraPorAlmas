@@ -1,6 +1,7 @@
 Unificar funcion de generar amigos con generar personas
 Hacer struct de pecados
 Solucionar IMprimir ultimo nivel del arbol
+Hacer struct de Arbol ABB
 
 Tareas de ayer:
 
