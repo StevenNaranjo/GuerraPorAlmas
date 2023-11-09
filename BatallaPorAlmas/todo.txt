@@ -13,10 +13,10 @@ Tareas de ayer:
 
 Tareas de hoy:
 [X]Generar representacion de los Demonios con su arreglo y heaps; hacer que el heap funcione diferente, hacer que empiece de mayor a menor, y con eso hacer la vara de condenacion
-[]Algoritmo de condenacion
+[X]Algoritmo de condenacion, revisarlo para cambiarle el estado de vivo a muerto, y que no se repitan.
 []Bitacora de condenacion.
 [] EL infierno
-[]Prototipo del menu, con un bucle, para ir realizando pruebas.
+[>]Prototipo del menu, con un bucle, para ir realizando pruebas.
 
 Tareas de mañana:
 []Arbol triario de angeles
@@ -24,3 +24,34 @@ Tareas de mañana:
 []Generar funcion HASH
 []Consultas
 Log de condenacion.
+
+void insertar(Persona* persona) {
+    if (tamano == capacidad) {
+        cout << "El heap está lleno." << endl;
+        return;
+    }
+
+    int indice = tamano;
+    personas[tamano++] = persona;
+
+    // Realizar una clasificación directa (sorting) en el vector
+    while (indice > 0) {
+        int padre = (indice - 1) / 2;
+        if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
+            // Intercambiar con el padre si el pecado es mayor
+            swap(personas[indice], personas[padre]);
+            indice = padre;
+        } else {
+            break;
+        }
+    }
+
+    // Realizar una clasificación directa en el vector
+    for (int i = 0; i < tamano; i++) {
+        for (int j = i + 1; j < tamano; j++) {
+            if (personas[i]->pecados[pecadoCapital] < personas[j]->pecados[pecadoCapital]) {
+                swap(personas[i], personas[j]);
+            }
+        }
+    }
+}

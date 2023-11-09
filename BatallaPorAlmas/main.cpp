@@ -2,18 +2,19 @@
 
 #include <chrono>
 int main() {
-    auto tiempoInicio = std::chrono::high_resolution_clock::now();
+    
+    //auto tiempoInicio = std::chrono::high_resolution_clock::now();
     Mundo* world = new Mundo(1000000);
-    world->generarPersonasMundo(400);
+    world->generarPersonasMundo(5000);
     world->cargarAmigosMundo();
-    auto tiempoFin = std::chrono::high_resolution_clock::now();
+    //auto tiempoFin = std::chrono::high_resolution_clock::now();
     // Calcula la duración en milisegundos
-    auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(tiempoFin - tiempoInicio);
+    //auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(tiempoFin - tiempoInicio);
     world->personas[1].amigos->imprimir();
     cout << world->personas[1].cantidadAmigos << endl;
     // Imprime la duración en milisegundos
     cout <<"\n"<< world->totalPersonas << endl;
-    std::cout << "La función miFuncion() tardó " << duracion.count() << " milisegundos en ejecutarse." << std::endl;
+    //std::cout << "La función miFuncion() tardó " << duracion.count() << " milisegundos en ejecutarse." << std::endl;
     //world->generarPersonasMundo(500);
     //world->cargarAmigosMundo();
     //world->generarPersonasMundo(500);
@@ -51,12 +52,7 @@ int main() {
     // Imprimir información del último nivel del árbol
     int* indices = new int[totalNodos];
     imprimirUltimoNivel(root, niveles - 1, 0, indices);
-    world->publicarEnRedSocial(0, world->personas[0]);
-    world->publicarEnRedSocial(0, world->personas[0]);
-    world->publicarEnRedSocial(0, world->personas[0]);
-    world->publicarEnRedSocial(0, world->personas[1]);
-    world->publicarEnRedSocial(0, world->personas[1]);
-    world->publicarEnRedSocial(0, world->personas[1]);
+    world->publicarEnRedesPorProfesion("Electricista", 4);
     //buscarPersonaPorID(root, 5, world->personas)->imprimir();
     //buscarPersonaPorID(root, 1000, world->personas)->imprimir();
     //buscarPersonaPorID(root, 1500, world->personas)->imprimir();
@@ -82,9 +78,21 @@ int main() {
     world->personas[1].amigos->imprimir();
     //world->personas[0].amigos->imprimir();
     //cout << world->personas[0].cantidadAmigos << endl;
+    
+    auto tiempoInicio = std::chrono::high_resolution_clock::now();
     world->demonios[0]->condenacion();
+    //world->demonios[0]->imprimirHeaps();
+    auto tiempoFin = std::chrono::high_resolution_clock::now();
+    // Calcula la duración en milisegundos
+    auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(tiempoFin - tiempoInicio);
+
     world->demonios[0]->imprimirHeaps();
+    cout << "EL DIABLO" <<endl;
+    std::cout << "La función miFuncion() tardó " << duracion.count() << " milisegundos en ejecutarse." << std::endl;
     delete world;
 
-    return 0;
+/*
+    Mundo* world = new Mundo(1000000);
+    menu(world);
+    return 0;*/
 }

@@ -142,6 +142,39 @@ struct Persona {
         }
         return favoritismo;
     }
+    int obtenerIndiceRedFavorita(){
+        int indice = 0;
+        for(int i = 0; i < 7; i++){
+            if(redesSociales[i] > redesSociales[indice]){
+                indice = i;
+            }
+        }
+        return indice;
+    }
+    
+    int* obtenerIndicesRedesFavoritas() {
+        int* indicesFavoritos = new int[7];
+        
+        // Inicializar los indicesFavoritos
+        for (int i = 0; i < 7; i++) {
+            indicesFavoritos[i] = i;
+        }
+
+        // Ordenar los indicesFavoritos de acuerdo al favoritismo
+        for (int i = 0; i < 7; i++) {
+            for (int j = i + 1; j < 7; j++) {
+                if (redesSociales[indicesFavoritos[i]] < redesSociales[indicesFavoritos[j]]) {
+                    // Intercambiar los elementos si el favoritismo es mayor
+                    int temp = indicesFavoritos[i];
+                    indicesFavoritos[i] = indicesFavoritos[j];
+                    indicesFavoritos[j] = temp;
+                }
+            }
+        }
+
+        return indicesFavoritos;
+    }
+
     void imprimir() {
         if (this->id == 0) {
             cout << "No hay datos" << endl;
@@ -348,7 +381,7 @@ void insertar(Persona* persona) {
     int indice = tamano;
     personas[tamano++] = persona;
 
-    // Realizar una clasificación directa (sorting) en el vector
+    // Realizar heapify ascendente
     while (indice > 0) {
         int padre = (indice - 1) / 2;
         if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
@@ -359,17 +392,44 @@ void insertar(Persona* persona) {
             break;
         }
     }
+}
+Persona* extraerPrimero() {
+    if (tamano == 0) {
+        cout << "El heap está vacío." << endl;
+        return nullptr;
+    }
 
-    // Realizar una clasificación directa en el vector
-    for (int i = 0; i < tamano; i++) {
-        for (int j = i + 1; j < tamano; j++) {
-            if (personas[i]->pecados[pecadoCapital] < personas[j]->pecados[pecadoCapital]) {
-                swap(personas[i], personas[j]);
-            }
+    Persona* personaExtraida = personas[0];
+    personas[0] = personas[--tamano];
+
+    // Reajustar el heap después de la extracción
+    int indice = 0;
+    while (true) {
+        int hijoIzquierdo = 2 * indice + 1;
+        int hijoDerecho = 2 * indice + 2;
+        int indiceMayor = indice;
+
+        // Comparar con el hijo izquierdo
+        if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+            indiceMayor = hijoIzquierdo;
+        }
+
+        // Comparar con el hijo derecho
+        if (hijoDerecho < tamano && personas[hijoDerecho]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+            indiceMayor = hijoDerecho;
+        }
+
+        // Intercambiar si es necesario y continuar ajustando
+        if (indiceMayor != indice) {
+            swap(personas[indice], personas[indiceMayor]);
+            indice = indiceMayor;
+        } else {
+            break;
         }
     }
-}
 
+    return personaExtraida;
+}
     void imprimirHeap() {
         if (tamano == 0) {
             cout << "El heap está vacío." << endl;
@@ -449,21 +509,23 @@ struct Demonio {
     }
 void condenacion() {
     // 1. Obtener todos los humanos en el heap
-    Heap* heapHumanos = new Heap(pecadoCapital, 100000);
-    for (int i = 0; i < 100000; i++) {
+    Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
+    for (int i = 0; i < totalPersonas; i++) {
+        if(personas[i].estado != "Muerto"){
         heapHumanos->insertar(&personas[i]);
+        }
     }
-    int cantidadAEnviar = totalPersonas * 0.05;
-    cout<< cantidadAEnviar << endl;
-    // 2. Extraer los humanos más pecadores del heap
+    
+    // 2. Calcular la cantidad de personas a condenar (el 5%)
+    int cantidadAEnviar = static_cast<int>(totalPersonas * 0.05);
+
+    // 3. Extraer los humanos más pecadores del heap
     for (int i = 0; i < cantidadAEnviar; i++) {
-        Persona* personaCondenada = heapHumanos->personas[0];
-        heapHumanos->personas[0] = heapHumanos->personas[heapHumanos->tamano - 1];
-        heapHumanos->tamano--;
+        Persona* personaCondenada = heapHumanos->extraerPrimero();
         
         // Actualizar el estado, hora de muerte y demonio de la persona condenada
-        personaCondenada->estado = "Condenado";
-        personaCondenada->horaMuerte = obtenerHoraActual();
+        personaCondenada->estado = "Muerto";
+        personaCondenada->horaMuerte = obtenerHoraActual(); // Asegúrate de que esta función esté definida
         personaCondenada->demonio = nombre;
 
         // Encontrar o crear la familia correspondiente a la persona condenada
@@ -477,7 +539,10 @@ void condenacion() {
         // Insertar la persona condenada en la familia correspondiente
         familia->heap->insertar(personaCondenada);
     }
-    heapHumanos->imprimirHeap();
+
+    // Imprimir el heap de humanos después de la condenación (opcional)
+    // Limpia la memoria asignada dinámicamente
+    delete heapHumanos;
 }
 void imprimirHeaps() {
     cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
@@ -524,6 +589,26 @@ struct Mundo{
     string* profesiones;
 
 // Calcular la cantidad de niveles necesarios
+    Mundo(){
+        totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
+        generacion = 0;
+        humanosConAmigos = 0;
+        personas = new Persona[100000];
+        nombres = cargarArchivo(1468, totalNombres, "/nombres.txt");
+        apellidos = cargarArchivo(30, totalApellidos, "/apellidos.txt");
+        paises = cargarArchivo(15, totalPaises, "/paises.txt");
+        creencias = cargarArchivo(10, totalCreencias, "/creencias.txt");
+        profesiones = cargarArchivo(20, totalProfesiones, "/profesiones.txt");
+        demonios = new Demonio*[7]; // Reservamos espacio para 7 demonios
+        demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
+        demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
+        demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
+        demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
+        demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
+        demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);    
+    }
+
 
     Mundo(int tamañoMundo){
         totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
@@ -546,9 +631,23 @@ struct Mundo{
     }
     void generarPersonasMundo(int personasAGenerar){
         generarPersonas(totalPersonas, generacion, personasAGenerar, personas, nombres, apellidos, paises, creencias, profesiones);
+        demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
+        demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
+        demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
+        demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
+        demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
+        demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas); 
     }
     void cargarAmigosMundo(){
         cargarAmigos(personas, totalPersonas, humanosConAmigos);
+        demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
+        demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
+        demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
+        demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
+        demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
+        demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas); 
     }
     void imprimirPersonas(){
         for (int i = 0; i < totalPersonas; i++) {
@@ -571,48 +670,158 @@ struct Mundo{
             aux = aux->siguiente;
         }
     }
-void condenacion(Demonio* demonio, Persona* personas, int totalPersonas) {
-    // Crear un heap de máximos para ordenar a las personas por su pecado capital
-    Heap maxHeap(demonio->pecadoCapital, totalPersonas);
-
-    // Insertar todas las personas en el heap
-    for (int i = 0; i < totalPersonas; i++) {
-        maxHeap.insertar(&personas[i]);
-    }
-
-    // Calcular el número de personas a condenar (el 5% del total de humanos)
-    int numPersonasCondenadas = totalPersonas * 0.05;
-
-    // Crear una lista de las personas condenadas
-    ListaHeaps* condenados = new ListaHeaps();
-
-    // Extraer las personas más pecadoras del heap y agregarlas a la lista de condenados
-    for (int i = 0; i < numPersonasCondenadas; i++) {
-        Persona* personaCondenada = maxHeap.personas[0];
-        maxHeap.personas[0] = maxHeap.personas[maxHeap.tamano - 1];
-        maxHeap.tamano--;
-
-        // Actualizar el estado, hora de muerte y demonio de la persona condenada
-        personaCondenada->estado = "Condenado";
-        personaCondenada->horaMuerte = obtenerHoraActual();
-        personaCondenada->demonio = demonio->nombre;
-
-        // Encontrar o crear la familia correspondiente a la persona condenada
-        NodoHeap* familia = demonio->encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
-        if (familia == nullptr) {
-            Heap* nuevoHeap = new Heap(demonio->pecadoCapital, totalPersonas);
-            demonio->familias->agregar(nuevoHeap, personaCondenada->apellido, personaCondenada->pais);
-            familia = demonio->encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+    void publicarEnRedSocialPorReligion(string religion){
+        string nombreRedes[] = {"Tinder", "iFood", "Twitter", "Instagram", "Facebook", "LinkedIn", "Netflix"};
+        string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
+        int cantidadPublicaciones = 0;
+        for(int i = 0; i < totalPersonas; i++){
+            if(personas[i].creencia == religion){
+                publicarEnRedSocial(personas[i].obtenerIndiceRedFavorita(), personas[i]);
+                cantidadPublicaciones++;
+            }
         }
-
-        // Insertar la persona condenada en la familia correspondiente
-        familia->heap->insertar(personaCondenada);
+        cout << "las personas del la religion " << religion << " han hecho " << cantidadPublicaciones << " publicaciones en su red social social favorita" << endl;
     }
+    void publicarEnRedesPorProfesion(string profesion, int nRedesFavoritas) {
+        
+        for (int i = 0; i < totalPersonas; i++) {
+        cout << "Entra1" << endl;
+            if (personas[i].profesion == profesion) {
+                for(int k=0; k<7; k++){
+                    cout << personas[i].pecados[k] << ", ";
+                }
+                cout << endl;
 
-    // Imprimir las familias y los condenados correspondientes al demonio
-    demonio->imprimirHeaps();
-}
+                // Obtener los índices de las n redes sociales favoritas de la persona
+                int* indicesFavoritos = personas[i].obtenerIndicesRedesFavoritas();
+                for(int j=0; j <7; j++){
+                    cout << indicesFavoritos[j] << ", ";
+                }
+                cout << endl;
+                // Publicar en las n redes sociales favoritas de la persona
+                for (int k = 0; k < nRedesFavoritas; k++) {
+                    int redSocial = indicesFavoritos[k];
+                    publicarEnRedSocial(redSocial, personas[i]);
+                }
+
+                // Liberar la memoria del array de índices favoritos
+                delete[] indicesFavoritos;
+            }
+        }
+    }
+    void publicarEnRedesPorFamilia(string pais, string apellido){
+        //Hacer lista de heaps con todas las familias recorrerlas, y cuando se encuentre la familia, hacer que publiquen.
+    }
 };
 
+void menuPublicarEnRedes(Mundo* mundo) {
+    cout << "Ingrese una opcion" << endl;
+    cout << "1. Seleccionar un humano para publicar en una red social particular" << endl;
+    cout << "2. Publicar en la red favorita de todos los humanos de una religión" << endl;
+    cout << "3. Publicar en las redes favoritas de todos los humanos de una profesión" << endl;
+    cout << "4. Publicar en las redes favoritas de los miembros de una familia" << endl;
 
+    int opcion = 0;
+    cin >> opcion;
+
+    if (opcion == 1) {
+        // Opción 1: Seleccionar un humano para publicar en una red social particular
+        mundo->imprimirPersonas();
+        cout << "Ingrese el ID del humano que desea seleccionar: ";
+        int idHumano = 0;
+        cin >> idHumano;
+
+        if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
+            cout << "Seleccione la red social (1-7): ";
+            int redSocial = 0;
+            cin >> redSocial;
+
+            if (redSocial >= 1 && redSocial <= 7) {
+                mundo->publicarEnRedSocial(redSocial - 1, mundo->personas[idHumano - 1]);
+            } else {
+                cout << "Número de red social no válido." << endl;
+            }
+        } else {
+            cout << "ID de humano no válido." << endl;
+        }
+    } else if (opcion == 2) {
+        // Opción 2: Publicar en la red favorita de todos los humanos de una religión
+        string creencias[] = {"Cristianismo","Islam","Judaísmo","Budismo", "Hinduismo", "Sikhismo","Jainismo","Zoroastrismo","Shintoísmo", "Ateismo"};
+        cout << "Ingrese la religión: " << endl;
+        cout << "1.Cristianismo" <<endl;
+        cout << "2.Islam" <<endl;
+        cout << "3.Judaísmo" <<endl;
+        cout << "4.Budismo" <<endl;
+        cout << "5.Hinduismo" <<endl;
+        cout << "6.Sikhismo" <<endl;
+        cout << "7.Jainismo" <<endl;
+        cout << "8.Zoroastrismo" <<endl;
+        cout << "9.Shintoísmo" <<endl;
+        cout << "10.Ateismo" <<endl;
+        string religion;
+        cin >> religion;
+        mundo->publicarEnRedSocialPorReligion(creencias[stoi(religion)-1]);
+    } else if (opcion == 3) {
+        // Opción 3: Publicar en las redes favoritas de todos los humanos de una profesión
+        cout << "Ingrese la profesión: ";
+        string profesion;
+        cin >> profesion;
+        cout << "Ingrese cuantas redes:";
+        int nRedesFavoritas;
+        cin >> nRedesFavoritas;
+        mundo->publicarEnRedesPorProfesion(profesion, nRedesFavoritas);
+    } else if (opcion == 4) {
+        // Opción 4: Publicar en las redes favoritas de los miembros de una familia
+        cout << "Ingrese el país de la familia: ";
+        string pais;
+        cin >> pais;
+        cout << "Ingrese el apellido de la familia: ";
+        string apellido;
+        cin >> apellido;
+        mundo->publicarEnRedesPorFamilia(pais, apellido);
+    } else {
+        cout << "Opción no válida. Por favor, elige una opción válida." << endl;
+    }
+}
+
+void menu(Mundo* world){
+    cout << "Bienvenido al juego de la batalla por las almas" << endl;
+    cout << "1. Generar Personas" << endl;
+    cout << "2. Publicar en Red Social" << endl;
+    cout << "3. Condenar" << endl;
+    cout << "4. Salvación" << endl;
+    cout << "5. Imprimir Personas" << endl;
+    cout << "6. Salir" << endl;
+    string opcion = "";
+    cin >> opcion;
+    if(opcion == "1"){
+        cout << "Ingrese la cantidad de personas a generar" << endl;
+        int cantidad = 0;
+        cin >> cantidad;
+        world->generarPersonasMundo(cantidad);
+        world->cargarAmigosMundo();
+        cout << "Se han generado " << cantidad << " personas" << endl;
+        menu(world);
+    }else if(opcion == "2"){
+        menuPublicarEnRedes(world);
+        menu(world);
+    }else if(opcion == "3"){
+        //Bitacora, realizarla
+        string opcion;
+        cout << "Ingrese el nombre del demonio que desea condenar" << endl;
+        cout << "1. Asmodeo" << endl;
+        cout << "2. Belfegor" << endl;
+        cout << "3. Satán" << endl;
+        cout << "4. Lucifer" << endl;
+        cout << "5. Belcebu" << endl;
+        cout << "6. Mammon" << endl;
+        cout << "7. Abadon" << endl;
+        cin >> opcion;
+        world->demonios[stoi(opcion)]->condenacion();
+        menu(world);
+    }else if(opcion == "5"){
+        world->imprimirPersonas();
+        menu(world);
+    }
+}
 
