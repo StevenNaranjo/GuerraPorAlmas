@@ -393,6 +393,9 @@ void insertar(Persona* persona) {
         }
     }
 }
+bool estaVacio() const {
+    return tamano == 0;
+}
 Persona* extraerPrimero() {
     if (tamano == 0) {
         cout << "El heap está vacío." << endl;
@@ -507,12 +510,12 @@ struct Demonio {
         
         return nullptr; // No se encontró la familia
     }
-void condenacion() {
+    void condenacion() {
     // 1. Obtener todos los humanos en el heap
     Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
     for (int i = 0; i < totalPersonas; i++) {
-        if(personas[i].estado != "Muerto"){
-        heapHumanos->insertar(&personas[i]);
+        if (personas[i].estado != "Muerto") {
+            heapHumanos->insertar(&personas[i]);
         }
     }
     
@@ -521,9 +524,10 @@ void condenacion() {
 
     // 3. Extraer los humanos más pecadores del heap
     for (int i = 0; i < cantidadAEnviar; i++) {
-        Persona* personaCondenada = heapHumanos->extraerPrimero();
-        
-        // Actualizar el estado, hora de muerte y demonio de la persona condenada
+        if (!heapHumanos->estaVacio()) { // Verificar si hay personas en el heap
+            try {
+                Persona* personaCondenada = heapHumanos->extraerPrimero();
+                // Actualizar el estado, hora de muerte y demonio de la persona condenada
         personaCondenada->estado = "Muerto";
         personaCondenada->horaMuerte = obtenerHoraActual(); // Asegúrate de que esta función esté definida
         personaCondenada->demonio = nombre;
@@ -538,12 +542,24 @@ void condenacion() {
 
         // Insertar la persona condenada en la familia correspondiente
         familia->heap->insertar(personaCondenada);
-    }
 
     // Imprimir el heap de humanos después de la condenación (opcional)
     // Limpia la memoria asignada dinámicamente
+            } catch (std::exception& e) {
+                // Manejo de la excepción
+                std::cerr << "Error al extraer la persona condenada: " << e.what() << std::endl;
+                // Puedes agregar más detalles o acciones de recuperación aquí
+            }
+        } else {
+            std::cout << "Ya no hay personas vivas que condenar." << std::endl;
+            break; // Salir del bucle si no hay personas disponibles
+        }
+    }
+
+    // Limpia la memoria asignada dinámicamente
     delete heapHumanos;
 }
+
 void imprimirHeaps() {
     cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
 

@@ -2,10 +2,10 @@
 
 #include <chrono>
 int main() {
-    
+    /*
     //auto tiempoInicio = std::chrono::high_resolution_clock::now();
     Mundo* world = new Mundo(1000000);
-    world->generarPersonasMundo(5000);
+    world->generarPersonasMundo(10000);
     world->cargarAmigosMundo();
     //auto tiempoFin = std::chrono::high_resolution_clock::now();
     // Calcula la duración en milisegundos
@@ -81,6 +81,64 @@ int main() {
     
     auto tiempoInicio = std::chrono::high_resolution_clock::now();
     world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+        world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+        world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+        world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
+    world->demonios[0]->condenacion();
     //world->demonios[0]->imprimirHeaps();
     auto tiempoFin = std::chrono::high_resolution_clock::now();
     // Calcula la duración en milisegundos
@@ -90,9 +148,9 @@ int main() {
     cout << "EL DIABLO" <<endl;
     std::cout << "La función miFuncion() tardó " << duracion.count() << " milisegundos en ejecutarse." << std::endl;
     delete world;
+*/
 
-/*
     Mundo* world = new Mundo(1000000);
     menu(world);
-    return 0;*/
+    return 0;
 }
