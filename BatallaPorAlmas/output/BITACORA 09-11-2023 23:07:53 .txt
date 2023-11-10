@@ -1,0 +1,601 @@
+Bitácora de Condenación para el Demonio: Abadon
+Nombre: Marcelo González
+Pecado Capital: 42
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Rosalia Delgado
+Pecado Capital: 42
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Juan Camilo Porras
+Pecado Capital: 36
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Zuri Fernández
+Pecado Capital: 35
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Gloria García
+Pecado Capital: 35
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Dariel Ríos
+Pecado Capital: 30
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Violeta Ortega
+Pecado Capital: 30
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Akane Martínez
+Pecado Capital: 30
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Acoatl Vargas
+Pecado Capital: 30
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Bárbara Martínez
+Pecado Capital: 25
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Genaro Díaz
+Pecado Capital: 24
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nazario Rojas
+Pecado Capital: 24
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Reyna Vega
+Pecado Capital: 21
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Pedro Benavides
+Pecado Capital: 21
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Billy Porras
+Pecado Capital: 21
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Haydée Rojas
+Pecado Capital: 20
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Khaleesi Vargas
+Pecado Capital: 20
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Sulay Cruz
+Pecado Capital: 18
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ariadna López
+Pecado Capital: 18
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Layla López
+Pecado Capital: 18
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alonso Molina
+Pecado Capital: 18
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ayoub Rodríguez
+Pecado Capital: 18
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Haritz Fernández
+Pecado Capital: 15
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alicia Ramírez
+Pecado Capital: 14
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Roxana Mora
+Pecado Capital: 14
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Evan Martínez
+Pecado Capital: 12
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Stacy Rojas
+Pecado Capital: 12
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Veronica Jiménez
+Pecado Capital: 12
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Jeremías Ortega
+Pecado Capital: 12
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Elienai Ortega
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Patricio Vega
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Amaro Jiménez
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Luisa Mora
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Janitzio Fernández
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Celeste Navarro
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Juan Jose Rodríguez
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Erdogan Martínez
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Nehuen Guzmán
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Wilder Rivera
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Marla Ríos
+Pecado Capital: 10
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Eliseo Mora
+Pecado Capital: 9
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Drake Mora
+Pecado Capital: 9
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Benigno Cruz
+Pecado Capital: 9
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Martín Rojas
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Olga López
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Almudena Rodríguez
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Jatziry Guzmán
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Cosme Mora
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Zahid Martínez
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Dalai Naranjo
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Ayelén Jiménez
+Pecado Capital: 8
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ashlyn Guzmán
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Lihuén Fernández
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Cira Navarro
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Allegra Ramírez
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Fátima Ríos
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Jose Pablo Rodríguez
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nina Naranjo
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alejo Ramírez
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Carlos Andrés Rojas
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Meritxell Vega
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Isel Mora
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Oier Mora
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Jania Delgado
+Pecado Capital: 6
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Martin Herrera
+Pecado Capital: 5
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Eduardo Ríos
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Haru Benavides
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Shelby López
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Yasira Mora
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Saiko Rodríguez
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Carina Torres
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Pedro González
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Olai Rojas
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Maximiliano Ríos
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Xareni Ortega
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Ramiro Rodríguez
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Victor Vargas
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ameyali Martínez
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Ruben Fernández
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Aresio Porras
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Elián Ríos
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Alexia Vega
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Benedicto Rivera
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Ildefonso López
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Agustín González
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Snyder Benavides
+Pecado Capital: 4
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Heiner Ríos
+Pecado Capital: 3
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Pocahontas Díaz
+Pecado Capital: 3
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Darinka Herrera
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Kenai Castro
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Francesc Fernández
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Udane García
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Gabriela Romero
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Jerson Martínez
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Génesis Cruz
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ashlyn Torres
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Heriberto Delgado
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Ruperto Naranjo
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Erendira Delgado
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:52 
+Ubicación: Infierno
+Demonio: Belfegor
+----------------------------
+Nombre: Olenka García
+Pecado Capital: 2
+Hora de Muerte: 09-11-2023 23:07:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------

@@ -1,7 +1,5 @@
-Unificar funcion de generar amigos con generar personas
-Hacer struct de pecados
-Solucionar IMprimir ultimo nivel del arbol
-Hacer struct de Arbol ABB
+MOdificar cantidades de almaas en el cielo y en el infierno
+
 
 Tareas de ayer:
 
@@ -16,42 +14,11 @@ Tareas de hoy:
 [X]Algoritmo de condenacion, revisarlo para cambiarle el estado de vivo a muerto, y que no se repitan.
 []Bitacora de condenacion.
 [] EL infierno
-[>]Prototipo del menu, con un bucle, para ir realizando pruebas.
+[X]Prototipo del menu, con un bucle, para ir realizando pruebas.
 
 Tareas de mañana:
 []Arbol triario de angeles
 []Log de salvacion
 []Generar funcion HASH
-[]Consultas
+[]Consultas -> Falta hacer opcion 3
 Log de condenacion.
-
-void insertar(Persona* persona) {
-    if (tamano == capacidad) {
-        cout << "El heap está lleno." << endl;
-        return;
-    }
-
-    int indice = tamano;
-    personas[tamano++] = persona;
-
-    // Realizar una clasificación directa (sorting) en el vector
-    while (indice > 0) {
-        int padre = (indice - 1) / 2;
-        if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
-            // Intercambiar con el padre si el pecado es mayor
-            swap(personas[indice], personas[padre]);
-            indice = padre;
-        } else {
-            break;
-        }
-    }
-
-    // Realizar una clasificación directa en el vector
-    for (int i = 0; i < tamano; i++) {
-        for (int j = i + 1; j < tamano; j++) {
-            if (personas[i]->pecados[pecadoCapital] < personas[j]->pecados[pecadoCapital]) {
-                swap(personas[i], personas[j]);
-            }
-        }
-    }
-}

@@ -113,6 +113,7 @@ struct Persona {
     string demonio;
     string angel;
     string horaMuerte;
+    string ubicacion;
     ListaAmigos* amigos;
     int* redesSociales; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
     int* pecados;       //[Lujuria, Gula, Ira,     Soberbia, Envidia,   Avaricia, Pereza]
@@ -128,6 +129,7 @@ struct Persona {
         profesion = "";
         fechaNacimiento = "";
         estado = "";
+        ubicacion = "Tierra";
         amigos = NULL;
         redesSociales = new int[7]; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
         pecados = new int[7];  
@@ -181,14 +183,29 @@ struct Persona {
             return;
         } else {
             cout << "ID: " << id << endl;
-            cout << "Generacion: " << generacion << endl;
+            cout << "Generación: " << generacion << endl;
+            cout << "Cantidad de amigos: " << cantidadAmigos << endl;
             cout << "Nombre: " << nombre << endl;
             cout << "Apellido: " << apellido << endl;
-            cout << "Pais: " << pais << endl;
+            cout << "País: " << pais << endl;
             cout << "Creencia: " << creencia << endl;
-            cout << "Profesion: " << profesion << endl;
-            cout << "Fecha de Nacimiento: " << fechaNacimiento << endl;
+            cout << "Profesión: " << profesion << endl;
+            cout << "Fecha de nacimiento: " << fechaNacimiento << endl;
             cout << "Estado: " << estado << endl;
+            cout << "Demonio: " << demonio << endl;
+            cout << "Ángel: " << angel << endl;
+            cout << "Hora de muerte: " << horaMuerte << endl;
+            cout << "Ubicación: " << ubicacion << endl;
+            cout << "Redes sociales: " << endl;
+            for (int i = 0; i < 7; i++) {
+                cout << " " << redesSociales[i];
+            }
+            cout << endl;
+            cout << "Pecados: " << endl;
+            for (int i = 0; i < 7; i++) {
+                cout << " " << pecados[i];
+            }
+            cout << endl;
         }
     }
 };
@@ -333,13 +350,19 @@ int calcularCantidadNiveles(int totalNodos) {
     }
     return niveles;
 }
+int cantidadNodos(TreeNode* root){
+    if(root == NULL){
+        return 0;
+    }
+    return 1 + cantidadNodos(root->left) + cantidadNodos(root->right);
+}
 
 void imprimirUltimoNivel(TreeNode* root, int nivel, int nivelActual, int* indices) {
     if (!root) return;
 
     if (nivelActual == nivel) {
         // Imprimir información de la persona
-        cout << "ID: " << root->persona->id << " Nombre: " << root->persona->nombre << " Apellido: " << root->persona->apellido << endl;
+        root->persona->imprimir();
     }
 
     imprimirUltimoNivel(root->left, nivel, nivelActual + 1, indices);
@@ -510,7 +533,7 @@ struct Demonio {
         
         return nullptr; // No se encontró la familia
     }
-    void condenacion() {
+    void condenacion(int& almasInfierno) {
     // 1. Obtener todos los humanos en el heap
     Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
     for (int i = 0; i < totalPersonas; i++) {
@@ -529,8 +552,10 @@ struct Demonio {
                 Persona* personaCondenada = heapHumanos->extraerPrimero();
                 // Actualizar el estado, hora de muerte y demonio de la persona condenada
         personaCondenada->estado = "Muerto";
+        personaCondenada->ubicacion = "Infierno";
         personaCondenada->horaMuerte = obtenerHoraActual(); // Asegúrate de que esta función esté definida
         personaCondenada->demonio = nombre;
+        almasInfierno++;
 
         // Encontrar o crear la familia correspondiente a la persona condenada
         NodoHeap* familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
@@ -580,9 +605,57 @@ void imprimirHeaps() {
 }
 };
 
+void generarBitacoraCondenacion(Demonio& demonio, const string& nombreArchivo) {
+    // 1. Crear un nuevo heap para organizar a las personas condenadas
+    Heap heapCondenados(demonio.pecadoCapital, demonio.totalPersonas);
 
+    // 2. Transferir personas condenadas al nuevo heap
+    for (int i = 0; i < demonio.totalPersonas; i++) {
+        if (demonio.personas[i].estado == "Muerto") {
+            heapCondenados.insertar(&demonio.personas[i]);
+        }
+    }
 
+    // 3. Abrir un archivo de texto para escribir la bitácora
+    ofstream archivoBitacora(nombreArchivo);
+    if (archivoBitacora.is_open()) {
+        archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonio.nombre << endl;
 
+        // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
+        while (!heapCondenados.estaVacio()) {
+            Persona* personaCondenada = heapCondenados.extraerPrimero();
+            archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
+            archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << endl;
+            archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
+            archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
+            archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
+            archivoBitacora << "----------------------------" << endl;
+        }
+
+        archivoBitacora.close();
+        cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << endl;
+    } else {
+        cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
+    }
+}
+
+void generarBitacoraParaTodosLosDemonios(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
+    // Abre el archivo en modo "append" para que cada demonio agregue su bitácora al final.
+    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
+
+    if (archivoBitacora.is_open()) {
+        // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
+        for (int i = 0; i < numDemonios; i++) {
+            archivoBitacora << "--------------------------------------" << std::endl;
+            generarBitacoraCondenacion(*demonios[i], nombreArchivo);
+        }
+
+        archivoBitacora.close();
+        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
+    } else {
+        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+    }
+}
 
 
 
@@ -597,12 +670,15 @@ struct Mundo{
     int totalCreencias;
     int totalPaises;
     int cantidadEnArbol = totalPersonas * 0.01;
+    int almasCielo = 0;
+    int almasInfierno = 0;
     Demonio** demonios;
     string* nombres;
     string* apellidos;
     string* paises;
     string* creencias;
     string* profesiones;
+    TreeNode* root;
 
 // Calcular la cantidad de niveles necesarios
     Mundo(){
@@ -622,7 +698,8 @@ struct Mundo{
         demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
         demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
         demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
-        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);    
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);
+        root = NULL;    
     }
 
 
@@ -676,14 +753,18 @@ struct Mundo{
         cout << "El humano: " << persona.id << ". " << persona.nombre << " " << persona.apellido << " Ha hecho una nueva publicacion en: " << nombreRedes[redSocial]<< endl;
         cout <<" Fanastimo de: " << nombreRedes[redSocial] << " = " << persona.obtenerFavoritismo(redSocial) << endl;
         Nodo * aux = persona.amigos->amigo;
-        while(aux != NULL){
-            aux->persona->pecados[redSocial] += aux->persona->obtenerFavoritismo(redSocial);
-            cout << "El humano: " << aux->persona->id << ". " << aux->persona->nombre << " " << aux->persona->apellido << " Ha obtenido un nuevo pecado: " << pecados[redSocial] << endl;
-            for(int i = 0;i<7; i++){
-                cout << " " << pecados[i] << ": " << aux->persona->pecados[i];
+        if(persona.estado =="Vivo"){
+            while(aux != NULL){
+                aux->persona->pecados[redSocial] += aux->persona->obtenerFavoritismo(redSocial);
+                cout << "El humano: " << aux->persona->id << ". " << aux->persona->nombre << " " << aux->persona->apellido << " Ha obtenido un nuevo pecado: " << pecados[redSocial] << endl;
+                for(int i = 0;i<7; i++){
+                    cout << " " << pecados[i] << ": " << aux->persona->pecados[i];
+                }
+                cout << endl;
+                aux = aux->siguiente;
             }
-            cout << endl;
-            aux = aux->siguiente;
+        }else{
+            cout << "La persona seleccionada esta muerta, y por lo tanto no puede publicar" << endl;
         }
     }
     void publicarEnRedSocialPorReligion(string religion){
@@ -691,7 +772,7 @@ struct Mundo{
         string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
         int cantidadPublicaciones = 0;
         for(int i = 0; i < totalPersonas; i++){
-            if(personas[i].creencia == religion){
+            if(personas[i].creencia == religion && personas[i].estado == "Vivo"){
                 publicarEnRedSocial(personas[i].obtenerIndiceRedFavorita(), personas[i]);
                 cantidadPublicaciones++;
             }
@@ -701,8 +782,7 @@ struct Mundo{
     void publicarEnRedesPorProfesion(string profesion, int nRedesFavoritas) {
         
         for (int i = 0; i < totalPersonas; i++) {
-        cout << "Entra1" << endl;
-            if (personas[i].profesion == profesion) {
+            if (personas[i].profesion == profesion && personas[i].estado == "Vivo") {
                 for(int k=0; k<7; k++){
                     cout << personas[i].pecados[k] << ", ";
                 }
@@ -725,8 +805,24 @@ struct Mundo{
             }
         }
     }
-    void publicarEnRedesPorFamilia(string pais, string apellido){
-        //Hacer lista de heaps con todas las familias recorrerlas, y cuando se encuentre la familia, hacer que publiquen.
+    void publicarEnRedesPorFamilia(string pais, string apellido, int nRedesFavoritas){
+        for(int i = 0; i < totalPersonas; i++){
+            if(personas[i].pais == pais && personas[i].apellido == apellido && personas[i].estado == "Vivo"){
+                int* indicesFavoritos = personas[i].obtenerIndicesRedesFavoritas();
+                for(int j=0; j <7; j++){
+                    cout << indicesFavoritos[j] << ", ";
+                }
+                cout << endl;
+                // Publicar en las n redes sociales favoritas de la persona
+                for (int k = 0; k < nRedesFavoritas; k++) {
+                    int redSocial = indicesFavoritos[k];
+                    publicarEnRedSocial(redSocial, personas[i]);
+                }
+
+                // Liberar la memoria del array de índices favoritos
+                delete[] indicesFavoritos;
+            }
+        }
     }
 };
 
@@ -794,12 +890,69 @@ void menuPublicarEnRedes(Mundo* mundo) {
         cout << "Ingrese el apellido de la familia: ";
         string apellido;
         cin >> apellido;
-        mundo->publicarEnRedesPorFamilia(pais, apellido);
+        int nRedesFav;
+        cout << "Ingrese cuantas redes:";
+        cin >> nRedesFav;
+        mundo->publicarEnRedesPorFamilia(pais, apellido, nRedesFav);
     } else {
         cout << "Opción no válida. Por favor, elige una opción válida." << endl;
     }
 }
+void menuConsultas(Mundo* mundo){
+            /*
+        1. Ganador: debe indicar quién ganó la lucha,
+        el Cielo o el Infierno. Esto se determina
+        simplemente el que tenga más almas en el
+        infierno o el Cielo. Debe mostrar el total de
+        humanos, humanos vivos, humanos en el
+        infierno y humanos en el Cielo.
+        
+        
+        2. Consultar un humano por ID, por nombre y
+        apellido. Debe mostrar toda la información
+        del humano, incluido sus amigos con su
+        información. Puede enviarlo a un archivo.
+        
+        
+        5. Buscar familia: Debe dar toda la
+        información y ubicación de los humanos,
+        ordenados de más a menos pecados (no olvide los
+        amigos, imprimir la información de estos). 
+        En la misma consulta, dar el porcentaje de la
+        familia viva, el porcentaje en el cielo y el
+        porcentaje en el infierno
+        */
+        cout << "Ingrese una opcion" << endl;
+        cout << "1. Mostar ganador" << endl;
+        cout << "2. Consultar un humano por ID" << endl;
+        cout << "3. Informacion Acerca de una familia." << endl;
+        string opcion;
+        cin >> opcion;
+        if(opcion == "1"){
+            if(mundo->almasCielo > mundo->almasInfierno){
+                cout << "El cielo ha ganado la batalla" << endl;
+            }else if(mundo->almasCielo < mundo->almasInfierno){
+                cout << "El infierno ha ganado la batalla" << endl;
+            }else{
+                cout << "Ha habido un empate" << endl;
+            }
+            cout << "Total de humanos: " << mundo->totalPersonas << endl;
+            cout << "Total de humanos vivos: " << mundo->totalPersonas - mundo->almasCielo - mundo->almasInfierno << endl;
+            cout << "Total de humanos en el cielo: " << mundo->almasCielo << endl;
+            cout << "Total de humanos en el infierno: " << mundo->almasInfierno << endl;
+        }else if(opcion == "2"){
+            cout << "Ingrese el ID del humano que desea seleccionar: ";
+            int idHumano = 0;
+            cin >> idHumano;
 
+            if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
+                mundo->personas[idHumano - 1].imprimir();
+            } else {
+                cout << "ID de humano no válido." << endl;
+            }
+        }
+
+}
 void menu(Mundo* world){
     cout << "Bienvenido al juego de la batalla por las almas" << endl;
     cout << "1. Generar Personas" << endl;
@@ -807,7 +960,12 @@ void menu(Mundo* world){
     cout << "3. Condenar" << endl;
     cout << "4. Salvación" << endl;
     cout << "5. Imprimir Personas" << endl;
-    cout << "6. Salir" << endl;
+    cout << "6. Mostar informacion del arbol de la vida" << endl;
+    cout << "7. Generar y Enviar bitacora al correo" << endl;
+    cout << "8. Ver el infierno" << endl;
+    cout << "9. Ver el cielo" << endl;
+    cout << "10. Consultas" << endl;
+    cout << "11. Salir" << endl;
     string opcion = "";
     cin >> opcion;
     if(opcion == "1"){
@@ -833,10 +991,57 @@ void menu(Mundo* world){
         cout << "6. Mammon" << endl;
         cout << "7. Abadon" << endl;
         cin >> opcion;
-        world->demonios[stoi(opcion)]->condenacion();
+        world->demonios[stoi(opcion)-1]->condenacion(world->almasInfierno);
         menu(world);
     }else if(opcion == "5"){
         world->imprimirPersonas();
+        menu(world);
+    }else if(opcion == "6"){
+        TreeNode* root = construirABB(0, world->totalPersonas - 1, world->personas);
+        int totalNodos = world->totalPersonas / 100 + 1; // 1% de totalPersonas + 1
+        int* indices = new int[totalNodos];
+        int niveles = calcularCantidadNiveles(totalNodos);
+        int totalPersonas = cantidadNodos(root);
+        int totalNodosArbol = pow(2,niveles)-1;
+        cout << "Cantidad de niveles del arbol: " << niveles << endl;
+        cout << "Cantidad de nodos del arbol: " << totalNodosArbol << endl;
+        cout << "Cantidad de personas en el arbol: " << totalPersonas << endl;
+        imprimirUltimoNivel(root, niveles - 1, 0, indices);
+        delete root;
+        menu(world);
+    }
+    else if(opcion == "7"){
+        //Bitacora, realizarla
+        //generarBitacoraParaTodosLosDemonios(world->demonios, 7,obtenerHoraActual());
+        generarBitacoraParaTodosLosDemonios(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        menu(world);
+    }
+    else if(opcion == "8"){
+        //Ver Informacion del Infierno.
+        /*
+            No olvide dar las consultas del Cielo y del
+            Infierno, toda la información de los
+            humanos en estas localidades. Puede
+            enviarlo a un archivo
+        */
+
+        menu(world);
+    }
+    else if(opcion == "9"){
+        //Ver informacion del cielo
+        menu(world);
+    }
+    else if(opcion == "10"){
+        //Conultas
+        menuConsultas(world);
+        menu(world);
+    }
+    else if(opcion == "11"){
+        //SALIR
+        exit;
+    }
+    else{
+        cout << "Opcion no valida" << endl;
         menu(world);
     }
 }
