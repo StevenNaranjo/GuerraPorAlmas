@@ -388,7 +388,11 @@ struct Heap {
     int tamano;
     int pecadoCapital;
     vector<Persona*> personas; // Usamos punteros a Persona
-
+    Heap(){
+        capacidad = 0;
+        tamano = 0;
+        pecadoCapital = 0;
+    }
     Heap(int pecado, int capacidad) {
         this->capacidad = capacidad;
         tamano = 0;
@@ -418,6 +422,14 @@ void insertar(Persona* persona) {
 }
 bool estaVacio() const {
     return tamano == 0;
+}
+Heap* copiar (){
+    Heap* nuevo = new Heap(pecadoCapital, capacidad);
+    nuevo->tamano = tamano;
+    for(int i = 0; i < tamano; i++){
+        nuevo->personas[i] = personas[i];
+    }
+    return nuevo;
 }
 Persona* extraerPrimero() {
     if (tamano == 0) {
@@ -506,6 +518,8 @@ struct Demonio {
     int pecadoCapital; // Un valor entre 0 y 6 para los 7 pecados capitales
     int totalPersonas;
     Persona* personas;
+    Heap personasCondenadas;
+
     ListaHeaps* familias; // Lista simple de familias relacionadas con este demonio
     Demonio(){
         nombre = "";
@@ -513,6 +527,8 @@ struct Demonio {
         totalPersonas = 0;
         personas = nullptr;
         familias = nullptr;
+
+
     }
     Demonio(string nombre,int pecado, Persona* personas, int totalPersonas){
         this->nombre = nombre;
@@ -535,7 +551,9 @@ struct Demonio {
     }
     void condenacion(int& almasInfierno) {
     // 1. Obtener todos los humanos en el heap
+
     Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
+    personasCondenadas = Heap(pecadoCapital, 10000);
     for (int i = 0; i < totalPersonas; i++) {
         if (personas[i].estado != "Muerto") {
             heapHumanos->insertar(&personas[i]);
@@ -563,6 +581,7 @@ struct Demonio {
             Heap* nuevoHeap = new Heap(pecadoCapital, totalPersonas);
             familias->agregar(nuevoHeap, personaCondenada->apellido, personaCondenada->pais);
             familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
+            personasCondenadas.insertar(personaCondenada);
         }
 
         // Insertar la persona condenada en la familia correspondiente
@@ -604,7 +623,6 @@ void imprimirHeaps() {
     cout << "=====================================" << endl;
 }
 };
-
 void generarBitacoraCondenacion(Demonio& demonio, const string& nombreArchivo) {
     // 1. Crear un nuevo heap para organizar a las personas condenadas
     Heap heapCondenados(demonio.pecadoCapital, demonio.totalPersonas);
@@ -638,6 +656,80 @@ void generarBitacoraCondenacion(Demonio& demonio, const string& nombreArchivo) {
         cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
     }
 }
+void generarBitacoraCondenacion2(Demonio& demonio, const string& nombreArchivo) {
+    // 1. Crear un nuevo heap para organizar a las personas condenadas
+    Heap heapCondenados = demonio.personasCondenadas;
+
+    // 2. Transferir personas condenadas al nuevo heap
+    for (int i = 0; i < demonio.totalPersonas; i++) {
+        if (demonio.personas[i].estado == "Muerto") {
+            heapCondenados.insertar(&demonio.personas[i]);
+        }
+    }
+
+    // 3. Abrir un archivo de texto para escribir la bitácora
+    ofstream archivoBitacora(nombreArchivo);
+    if (archivoBitacora.is_open()) {
+        archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonio.nombre << endl;
+
+        // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
+        while (!heapCondenados.estaVacio()) {
+            Persona* personaCondenada = heapCondenados.extraerPrimero();
+            archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
+            archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << endl;
+            archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
+            archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
+            archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
+            archivoBitacora << "----------------------------" << endl;
+        }
+
+        archivoBitacora.close();
+        cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << endl;
+    } else {
+        cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
+    }
+}
+void generarBitacoraCondenacion3(Demonio& demonio, std::ofstream& archivoBitacora) {
+    // 1. Crear un nuevo heap para organizar a las personas condenadas
+    Heap heapCondenados = demonio.personasCondenadas;
+
+    // 2. Transferir personas condenadas al nuevo heap
+    for (int i = 0; i < demonio.totalPersonas; i++) {
+        if (demonio.personas[i].estado == "Muerto" && demonio.personas[i].demonio == demonio.nombre) {
+            heapCondenados.insertar(&demonio.personas[i]);
+        }
+    }
+
+    // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
+    while (!heapCondenados.estaVacio()) {
+        Persona* personaCondenada = heapCondenados.extraerPrimero();
+        archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << std::endl;
+        archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << std::endl;
+        archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << std::endl;
+        archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << std::endl;
+        archivoBitacora << "Demonio: " << personaCondenada->demonio << std::endl;
+        archivoBitacora << "----------------------------" << std::endl;
+    }
+}
+void generarBitacoraParaTodosLosDemoniosUnificada(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
+    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
+
+    if (archivoBitacora.is_open()) {
+        for (int i = 0; i < numDemonios; i++) {
+            archivoBitacora << "--------------------------------------" << std::endl;
+            archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonios[i]->nombre << std::endl;
+            archivoBitacora << "--------------------------------------" << std::endl;
+            // Llama a la función original para generar la bitácora de este demonio
+            generarBitacoraCondenacion3(*demonios[i], archivoBitacora);
+        }
+
+        archivoBitacora.close();
+        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
+    } else {
+        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+    }
+}
+
 
 void generarBitacoraParaTodosLosDemonios(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
     // Abre el archivo en modo "append" para que cada demonio agregue su bitácora al final.
@@ -656,6 +748,25 @@ void generarBitacoraParaTodosLosDemonios(Demonio** demonios, int numDemonios, co
         std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
     }
 }
+void generarBitacoraParaTodosLosDemonios2(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
+    // Abre el archivo en modo "append" para que cada demonio agregue su bitácora al final.
+    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
+
+    if (archivoBitacora.is_open()) {
+        // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
+        for (int i = 0; i < numDemonios; i++) {
+            archivoBitacora << "--------------------------------------" << std::endl;
+            generarBitacoraCondenacion2(*demonios[i], nombreArchivo);
+        }
+
+        archivoBitacora.close();
+        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
+    } else {
+        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+    }
+}
+
+
 
 
 
@@ -824,6 +935,39 @@ struct Mundo{
             }
         }
     }
+    void generarTxtInfierno(int numDemonios, const string& nombreArchivo){
+    std::ofstream archivoBitacora(nombreArchivo, ios::app);
+    string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
+    if (archivoBitacora.is_open()) {
+        // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
+        archivoBitacora << "Personas en el Infierno: " << almasInfierno << endl;
+        for (int i = 0; i < numDemonios; i++) {
+            archivoBitacora << "--------------------------------------" << endl;
+            archivoBitacora << "Demonio: " << demonios[i]->nombre << " (Pecado Capital: " << pecados[demonios[i]->pecadoCapital] << ")" << endl;
+
+            NodoHeap* familia = demonios[i]->familias->heap;
+            while (familia != nullptr) {
+                archivoBitacora << "Familia: " << familia->apellido << " (País: " << familia->pais << ")" << endl;
+                Heap * heapFamilia = familia->heap->copiar();
+                while(!heapFamilia->estaVacio()){
+                    Persona* personaCondenada = heapFamilia->extraerPrimero();
+                    archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
+                    archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonios[i]->pecadoCapital] << endl;
+                    archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
+                    archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
+                    archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
+                    archivoBitacora << "----------------------------" << endl;
+                }
+                familia = familia->siguiente;
+            }
+        }
+        archivoBitacora.close();
+    }else {
+        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+    }
+
+
+}
 };
 
 void menuPublicarEnRedes(Mundo* mundo) {
@@ -1013,7 +1157,13 @@ void menu(Mundo* world){
     else if(opcion == "7"){
         //Bitacora, realizarla
         //generarBitacoraParaTodosLosDemonios(world->demonios, 7,obtenerHoraActual());
-        generarBitacoraParaTodosLosDemonios(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        /*
+        for(int i = 0; i < 7; i++){
+            generarBitacoraCondenacion2(*world->demonios[i],world->demonios[i]->nombre +" "+ obtenerHoraActual() + ".txt");
+        }*/
+        
+        //generarBitacoraParaTodosLosDemonios2(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        generarBitacoraParaTodosLosDemoniosUnificada(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
         menu(world);
     }
     else if(opcion == "8"){
@@ -1025,6 +1175,7 @@ void menu(Mundo* world){
             enviarlo a un archivo
         */
 
+        world->generarTxtInfierno(7, "Infierno " + obtenerHoraActual() + ".txt");
         menu(world);
     }
     else if(opcion == "9"){

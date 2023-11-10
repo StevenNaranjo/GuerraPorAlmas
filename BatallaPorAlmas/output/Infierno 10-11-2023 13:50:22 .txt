@@ -1,0 +1,15 @@
+Personas en el Infierno: 0
+--------------------------------------
+Demonio: Asmodeo (Pecado Capital: 0)
+--------------------------------------
+Demonio: Belfegor (Pecado Capital: 1)
+--------------------------------------
+Demonio: Satán (Pecado Capital: 2)
+--------------------------------------
+Demonio: Lucifer (Pecado Capital: 3)
+--------------------------------------
+Demonio: Belcebu (Pecado Capital: 4)
+--------------------------------------
+Demonio: Mammon (Pecado Capital: 5)
+--------------------------------------
+Demonio: Abadon (Pecado Capital: 6)

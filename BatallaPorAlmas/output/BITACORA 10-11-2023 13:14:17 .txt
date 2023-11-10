@@ -1,0 +1,537 @@
+--------------------------------------
+Bitácora de Condenación para el Demonio: Asmodeo
+--------------------------------------
+Nombre: Violeta Rodríguez
+Pecado Capital: 42
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Oneida Naranjo
+Pecado Capital: 42
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Violeta Rodríguez
+Pecado Capital: 42
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Oneida Naranjo
+Pecado Capital: 42
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Inmaculada Vega
+Pecado Capital: 35
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Inmaculada Vega
+Pecado Capital: 35
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Fernando José Vargas
+Pecado Capital: 30
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Othon García
+Pecado Capital: 30
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Fernando José Vargas
+Pecado Capital: 30
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Othon García
+Pecado Capital: 30
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Estefanía Fernández
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Marco Antonio Cruz
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Estefanía Fernández
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Yurem Castro
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Yurem Castro
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Marco Antonio Cruz
+Pecado Capital: 28
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Rosario Ríos
+Pecado Capital: 24
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Sirius Cruz
+Pecado Capital: 24
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Rosario Ríos
+Pecado Capital: 24
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Sirius Cruz
+Pecado Capital: 24
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Diego Rodríguez
+Pecado Capital: 20
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Izel Rojas
+Pecado Capital: 20
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Diego Rodríguez
+Pecado Capital: 20
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Izel Rojas
+Pecado Capital: 20
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Iyari Benavides
+Pecado Capital: 18
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Iyari Benavides
+Pecado Capital: 18
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nicolle Molina
+Pecado Capital: 18
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nicolle Molina
+Pecado Capital: 18
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Sayri Rodríguez
+Pecado Capital: 16
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Sayri Rodríguez
+Pecado Capital: 16
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nicolas Ríos
+Pecado Capital: 15
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alex Ramírez
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: René Naranjo
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Zazil ha Rodríguez
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Vidal García
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Teófila Ríos
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Dalai Herrera
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alex Ramírez
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Vidal García
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Osama Molina
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Dalai Herrera
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Gohan Rodríguez
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Zazil ha Rodríguez
+Pecado Capital: 14
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Stacy Ramírez
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Victor Vega
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Gabriel Alejandro López
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Isaías Naranjo
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Alberto Vega
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Diana Morales
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Borja Fernández
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Stacy Ramírez
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Chencho Molina
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Evangeline Vargas
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Jireh Mora
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nahara Morales
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Román Cruz
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Suyai Delgado
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Gabriel Alejandro López
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Suyai Delgado
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Isaías Naranjo
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Jireh Mora
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nazario Ríos
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Diana Morales
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Borja Fernández
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Haridian Rodríguez
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nahara Morales
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Chencho Molina
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nicomedes Ríos
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Caín Fernández
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Evangeline Vargas
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Nicomedes Ríos
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Victor Vega
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ernesto Rivera
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ernesto Rivera
+Pecado Capital: 12
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Azeneth Rodríguez
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Lorena Castro
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Kenneth Rojas
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Malia Guzmán
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Rommel Naranjo
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Getsemaní Fernández
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Kenneth Rojas
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Carmelo Martínez
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Lorena Castro
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Malia Guzmán
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Ceferino Rodríguez
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Carmelo Martínez
+Pecado Capital: 10
+Hora de Muerte: 10-11-2023 13:14:15 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Belfegor
+--------------------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Satán
+--------------------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Lucifer
+--------------------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Belcebu
+--------------------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Mammon
+--------------------------------------
+--------------------------------------
+Bitácora de Condenación para el Demonio: Abadon
+--------------------------------------
