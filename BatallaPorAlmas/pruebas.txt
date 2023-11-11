@@ -89,3 +89,13 @@
 
 
 
+struct Angel{
+    string nombre;
+    Persona* persona;
+    int version; 
+    int generacion;
+};
+Tengo este struct, pero necesito guardalos de una manera particular, esto angeles estan en un arbol tri-ario, todo bien. 
+El primer nivel siempre esta uno angel llamado "Dios"
+En el segundo nivel, siempre estaran de esta maneran "Serafines", "Querubines" y "Tronos",
+Ya luego existe un algortimo que se va a llamar salvacion, el cual recibe un HeapInfierno, en el cual se encuentran las almas mas pecadoras del mundo, y cada vez que el salvacion se ejecute, se generan un nuevo nivel completo del arbol, y con este esa cantidad de nuevos angeles 

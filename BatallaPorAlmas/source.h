@@ -13,6 +13,8 @@
 #include <thread>
 #include <chrono>
 
+// Incluye el archivo Python 
+
 using namespace std;
 using namespace filesystem;
 struct Persona;
@@ -30,6 +32,8 @@ string obtenerRuta(string nombreDirectorio);
 string* cargarArchivo(int cantidadDatos, int& totalDatos, string nombreArchivo);
 void generarPersonas(int& totalPersonas, int& generacion, int personasAGenerar, Persona* personas, string* nombres, string* apellidos, string* paises, string* creencias, string* profesiones);
 void cargarAmigos(Persona* personas, int totalPersonas);
+
+
 
 string obtenerHoraActual(){
     time_t tiempoActual = time(NULL);
@@ -53,6 +57,18 @@ string obtenerHoraActual(){
     string horaActual = fecha + " " +hora + ":" + minuto + ":" + segundo + " " ;
 
     return horaActual;
+}
+string obtenerFechaActual(){
+    time_t tiempoActual = time(NULL);
+    struct tm *tiempo = localtime(&tiempoActual);
+
+    int dia = tiempo->tm_mday;
+    int mes = tiempo->tm_mon + 1; // Sumamos 1 para que el mes esté en el rango correcto (1-12)
+    int anio = tiempo->tm_year + 1900; // Sumamos 1900 para obtener el año correcto
+    string fecha = (dia < 10 ? "0" : "") + to_string(dia) + "-" +
+                    (mes < 10 ? "0" : "") + to_string(mes) + "-" +
+                    std::to_string(anio);
+    return fecha;
 }
 string obtenerRuta(string nombreDirectorio) {
     // Usar current_path desde el espacio de nombres std::filesystem
@@ -113,7 +129,9 @@ struct Persona {
     string demonio;
     string angel;
     string horaMuerte;
+    string horaSalvacion;
     string ubicacion;
+    int totalPecados;
     ListaAmigos* amigos;
     int* redesSociales; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
     int* pecados;       //[Lujuria, Gula, Ira,     Soberbia, Envidia,   Avaricia, Pereza]
@@ -130,6 +148,10 @@ struct Persona {
         fechaNacimiento = "";
         estado = "";
         ubicacion = "Tierra";
+        demonio = "";
+        angel = "";
+        horaMuerte = "";
+        totalPecados = 0;
         amigos = NULL;
         redesSociales = new int[7]; //[Tinder, iFood, Twitter, Instagram, Facebook, linkedIn,Netflix]
         pecados = new int[7];  
@@ -399,75 +421,109 @@ struct Heap {
         pecadoCapital = pecado;
         personas.resize(capacidad, nullptr); // Resize el vector a la capacidad dada
     }
-void insertar(Persona* persona) {
-    if (tamano == capacidad) {
-        cout << "El heap está lleno." << endl;
-        return;
-    }
-
-    int indice = tamano;
-    personas[tamano++] = persona;
-
-    // Realizar heapify ascendente
-    while (indice > 0) {
-        int padre = (indice - 1) / 2;
-        if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
-            // Intercambiar con el padre si el pecado es mayor
-            swap(personas[indice], personas[padre]);
-            indice = padre;
-        } else {
-            break;
-        }
-    }
-}
-bool estaVacio() const {
-    return tamano == 0;
-}
-Heap* copiar (){
-    Heap* nuevo = new Heap(pecadoCapital, capacidad);
-    nuevo->tamano = tamano;
-    for(int i = 0; i < tamano; i++){
-        nuevo->personas[i] = personas[i];
-    }
-    return nuevo;
-}
-Persona* extraerPrimero() {
-    if (tamano == 0) {
-        cout << "El heap está vacío." << endl;
-        return nullptr;
-    }
-
-    Persona* personaExtraida = personas[0];
-    personas[0] = personas[--tamano];
-
-    // Reajustar el heap después de la extracción
-    int indice = 0;
-    while (true) {
-        int hijoIzquierdo = 2 * indice + 1;
-        int hijoDerecho = 2 * indice + 2;
-        int indiceMayor = indice;
-
-        // Comparar con el hijo izquierdo
-        if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
-            indiceMayor = hijoIzquierdo;
+    void insertar(Persona* persona) {
+        if (tamano == capacidad) {
+            cout << "El heap está lleno." << endl;
+            return;
         }
 
-        // Comparar con el hijo derecho
-        if (hijoDerecho < tamano && personas[hijoDerecho]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
-            indiceMayor = hijoDerecho;
-        }
+        int indice = tamano;
+        personas[tamano++] = persona;
 
-        // Intercambiar si es necesario y continuar ajustando
-        if (indiceMayor != indice) {
-            swap(personas[indice], personas[indiceMayor]);
-            indice = indiceMayor;
-        } else {
-            break;
+        // Realizar heapify ascendente
+        while (indice > 0) {
+            int padre = (indice - 1) / 2;
+            if (personas[indice]->pecados[pecadoCapital] > personas[padre]->pecados[pecadoCapital]) {
+                // Intercambiar con el padre si el pecado es mayor
+                swap(personas[indice], personas[padre]);
+                indice = padre;
+            } else {
+                break;
+            }
         }
     }
+    void eliminar(Persona persona){
+        int indice = 0;
+        for(int i = 0; i < tamano; i++){
+            if(personas[i]->id == persona.id){
+                indice = i;
+                break;
+            }
+        }
+        personas[indice] = personas[--tamano];
+        // Realizar heapify descendente
+        while (true) {
+            int hijoIzquierdo = 2 * indice + 1;
+            int hijoDerecho = 2 * indice + 2;
+            int indiceMayor = indice;
 
-    return personaExtraida;
-}
+            // Comparar con el hijo izquierdo
+            if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+                indiceMayor = hijoIzquierdo;
+            }
+
+            // Comparar con el hijo derecho
+            if (hijoDerecho < tamano && personas[hijoDerecho]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+                indiceMayor = hijoDerecho;
+            }
+
+            // Intercambiar si es necesario y continuar ajustando
+            if (indiceMayor != indice) {
+                swap(personas[indice], personas[indiceMayor]);
+                indice = indiceMayor;
+            } else {
+                break;
+            }
+        }
+    }
+    bool estaVacio() const {
+        return tamano == 0;
+    }
+    Heap* copiar (){
+        Heap* nuevo = new Heap(pecadoCapital, capacidad);
+        nuevo->tamano = tamano;
+        for(int i = 0; i < tamano; i++){
+            nuevo->personas[i] = personas[i];
+        }
+        return nuevo;
+    }
+    Persona* extraerPrimero() {
+        if (tamano == 0) {
+            cout << "El heap está vacío." << endl;
+            return nullptr;
+        }
+
+        Persona* personaExtraida = personas[0];
+        personas[0] = personas[--tamano];
+
+        // Reajustar el heap después de la extracción
+        int indice = 0;
+        while (true) {
+            int hijoIzquierdo = 2 * indice + 1;
+            int hijoDerecho = 2 * indice + 2;
+            int indiceMayor = indice;
+
+            // Comparar con el hijo izquierdo
+            if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+                indiceMayor = hijoIzquierdo;
+            }
+
+            // Comparar con el hijo derecho
+            if (hijoDerecho < tamano && personas[hijoDerecho]->pecados[pecadoCapital] > personas[indiceMayor]->pecados[pecadoCapital]) {
+                indiceMayor = hijoDerecho;
+            }
+
+            // Intercambiar si es necesario y continuar ajustando
+            if (indiceMayor != indice) {
+                swap(personas[indice], personas[indiceMayor]);
+                indice = indiceMayor;
+            } else {
+                break;
+            }
+        }
+
+        return personaExtraida;
+    }
     void imprimirHeap() {
         if (tamano == 0) {
             cout << "El heap está vacío." << endl;
@@ -478,6 +534,114 @@ Persona* extraerPrimero() {
             cout << personas[i]->nombre << " " << personas[i]->apellido << endl;
             cout << personas[i]->pecados[pecadoCapital] << endl;
         }
+    }
+};
+
+struct HeapInfierno{
+    int capacidad;
+    int tamano;
+    vector<Persona*> personas; // Usamos punteros a Persona
+    HeapInfierno(){
+        capacidad = 0;
+        tamano = 0;
+    }
+    HeapInfierno(int capacidad) {
+        this->capacidad = capacidad;
+        tamano = 0;
+        personas.resize(capacidad, nullptr); // Resize el vector a la capacidad dada
+    }
+    void insertar(Persona* persona) {
+        if (tamano == capacidad) {
+            cout << "El heap está lleno." << endl;
+            return;
+        }
+
+        int indice = tamano;
+        personas[tamano++] = persona;
+
+        // Realizar heapify ascendente
+        while (indice > 0) {
+            int padre = (indice - 1) / 2;
+            for(int i = 0; i < 7; i++){
+                persona->totalPecados += persona->pecados[i];
+            }
+            if (personas[indice]->totalPecados > personas[padre]->totalPecados) {
+                // Intercambiar con el padre si el pecado es mayor
+                swap(personas[indice], personas[padre]);
+                indice = padre;
+            } else {
+                break;
+            }
+        }
+    }
+    void eliminar(Persona persona){
+        int indice = 0;
+        for(int i = 0; i < tamano; i++){
+            if(personas[i]->id == persona.id){
+                indice = i;
+                break;
+            }
+        }
+        personas[indice] = personas[--tamano];
+        // Realizar heapify descendente
+        while (true) {
+            int hijoIzquierdo = 2 * indice + 1;
+            int hijoDerecho = 2 * indice + 2;
+            int indiceMayor = indice;
+
+            // Comparar con el hijo izquierdo
+            if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[0] > personas[indiceMayor]->pecados[0]) {
+                indiceMayor = hijoIzquierdo;
+            }
+
+            // Comparar con el hijo derecho
+        }
+    }
+    bool isEmpty(){
+        return tamano == 0;
+    }
+    Persona* eliminarPrimero(){
+        if (tamano == 0) {
+            cout << "El heap está vacío." << endl;
+            return nullptr;
+        }
+
+        Persona* personaExtraida = personas[0];
+        personas[0] = personas[--tamano];
+
+        // Reajustar el heap después de la extracción
+        int indice = 0;
+        while (true) {
+            int hijoIzquierdo = 2 * indice + 1;
+            int hijoDerecho = 2 * indice + 2;
+            int indiceMayor = indice;
+
+            // Comparar con el hijo izquierdo
+            if (hijoIzquierdo < tamano && personas[hijoIzquierdo]->pecados[0] > personas[indiceMayor]->pecados[0]) {
+                indiceMayor = hijoIzquierdo;
+            }
+
+            // Comparar con el hijo derecho
+            if (hijoDerecho < tamano && personas[hijoDerecho]->pecados[0] > personas[indiceMayor]->pecados[0]) {
+                indiceMayor = hijoDerecho;
+            }
+
+            // Intercambiar si es necesario y continuar ajustando
+            if (indiceMayor != indice) {
+                swap(personas[indice], personas[indiceMayor]);
+                indice = indiceMayor;
+            } else {
+                break;
+            }
+        }
+
+        return personaExtraida;
+    }
+    void imprimir(){
+        for(int i = 0; i < tamano; i++){
+            cout << personas[i]->id << " " << personas[i]->nombre << " " << personas[i]->apellido << endl;
+        }
+    
     }
 };
 struct NodoHeap {
@@ -549,7 +713,7 @@ struct Demonio {
         
         return nullptr; // No se encontró la familia
     }
-    void condenacion(int& almasInfierno) {
+    void condenacion(int& almasInfierno,int& personasVivas, HeapInfierno* infierno) {
     // 1. Obtener todos los humanos en el heap
 
     Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
@@ -574,6 +738,7 @@ struct Demonio {
         personaCondenada->horaMuerte = obtenerHoraActual(); // Asegúrate de que esta función esté definida
         personaCondenada->demonio = nombre;
         almasInfierno++;
+        personasVivas--;
 
         // Encontrar o crear la familia correspondiente a la persona condenada
         NodoHeap* familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
@@ -582,6 +747,7 @@ struct Demonio {
             familias->agregar(nuevoHeap, personaCondenada->apellido, personaCondenada->pais);
             familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
             personasCondenadas.insertar(personaCondenada);
+            infierno->insertar(personaCondenada);
         }
 
         // Insertar la persona condenada en la familia correspondiente
@@ -604,98 +770,206 @@ struct Demonio {
     delete heapHumanos;
 }
 
-void imprimirHeaps() {
-    cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
+    void imprimirHeaps() {
+        cout << "Demonio: " << nombre << " (Pecado Capital: " << pecadoCapital << ")" << endl;
 
-    NodoHeap* familia = familias->heap;
-    while (familia != nullptr) {
-        cout << "Familia: " << familia->apellido << " (País: " << familia->pais << ")" << endl;
-        familia->heap->imprimirHeap();
-        cout << "-------------------------------------" << endl;
-        familia = familia->siguiente;
+        NodoHeap* familia = familias->heap;
+        while (familia != nullptr) {
+            cout << "Familia: " << familia->apellido << " (País: " << familia->pais << ")" << endl;
+            familia->heap->imprimirHeap();
+            cout << "-------------------------------------" << endl;
+            familia = familia->siguiente;
+        }
+
+        if (!familias->heap) {
+            // Comentario de depuración en caso de que no haya familias
+            cout << "No hay familias para mostrar. Motivo: No se ha condenado a nadie." << endl;
+        }
+
+        cout << "=====================================" << endl;
     }
-
-    if (!familias->heap) {
-        // Comentario de depuración en caso de que no haya familias
-        cout << "No hay familias para mostrar. Motivo: No se ha condenado a nadie." << endl;
-    }
-
-    cout << "=====================================" << endl;
-}
 };
-void generarBitacoraCondenacion(Demonio& demonio, const string& nombreArchivo) {
-    // 1. Crear un nuevo heap para organizar a las personas condenadas
-    Heap heapCondenados(demonio.pecadoCapital, demonio.totalPersonas);
+struct Angel{
+    string nombre;
+    Persona* persona;
+    int version;
+    int generacion;
+};
 
-    // 2. Transferir personas condenadas al nuevo heap
-    for (int i = 0; i < demonio.totalPersonas; i++) {
-        if (demonio.personas[i].estado == "Muerto") {
-            heapCondenados.insertar(&demonio.personas[i]);
+struct TriarioNodo {
+    Angel angel;
+    vector<TriarioNodo*> hijos;
+};
+
+struct ArbolAngel {
+    TriarioNodo* raiz;
+
+    ArbolAngel() {
+        raiz = new TriarioNodo();
+        raiz->angel.nombre = "Dios";
+        raiz->angel.generacion = 0;
+        raiz->angel.version = 1;
+        raiz->angel.persona = nullptr;
+
+        // Crea los ángeles del segundo nivel
+        for (int i = 0; i < 3; i++) {
+            TriarioNodo* angel = new TriarioNodo();
+            angel->angel.nombre = (i == 0) ? "Serafines" : (i == 1) ? "Querubines" : "Tronos";
+            angel->angel.generacion = 1;
+            angel->angel.version = 1;
+            angel->angel.persona = nullptr;
+            raiz->hijos.push_back(angel);
+        }
+    }
+    int obtenerCantidadNiveles(TriarioNodo* nodo) {
+    if (nodo == nullptr) {
+        return 0;
+    }
+
+    int maxNivelHijos = 0;
+    for (TriarioNodo* hijo : nodo->hijos) {
+        int nivelHijo = obtenerCantidadNiveles(hijo);
+        if (nivelHijo > maxNivelHijos) {
+            maxNivelHijos = nivelHijo;
         }
     }
 
-    // 3. Abrir un archivo de texto para escribir la bitácora
-    ofstream archivoBitacora(nombreArchivo);
-    if (archivoBitacora.is_open()) {
-        archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonio.nombre << endl;
+    return maxNivelHijos + 1;
+}
 
-        // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
-        while (!heapCondenados.estaVacio()) {
-            Persona* personaCondenada = heapCondenados.extraerPrimero();
-            archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
-            archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << endl;
-            archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
-            archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
-            archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
-            archivoBitacora << "----------------------------" << endl;
+int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
+    return obtenerCantidadNiveles(arbol->raiz);
+}
+    // Agrega una función para realizar la salvación y generar nuevos niveles
+    void imprimirNombresPorNivel(TriarioNodo* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    std::cout << nodo->angel.nombre << " ";
+    
+    for (TriarioNodo* hijo : nodo->hijos) {
+        imprimirNombresPorNivel(hijo);
+    }
+    
+}
+
+    void imprimirArbolPorNivel(ArbolAngel* arbol) {
+        std::queue<TriarioNodo*> nivelActual;
+        std::queue<TriarioNodo*> nivelSiguiente;
+
+        nivelActual.push(arbol->raiz);
+
+        while (!nivelActual.empty()) {
+            TriarioNodo* nodo = nivelActual.front();
+            nivelActual.pop();
+
+            std::cout << nodo->angel.nombre << " ";
+
+            for (TriarioNodo* hijo : nodo->hijos) {
+                nivelSiguiente.push(hijo);
+            }
+
+            if (nivelActual.empty()) {
+                std::cout << std::endl;
+                std::swap(nivelActual, nivelSiguiente);
+            }
         }
+    }
 
-        archivoBitacora.close();
-        cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << endl;
-    } else {
-        cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
+    string obtenerNombreAleatorio() {
+        std::vector<std::string> nombres = {
+            "Miguel", "Nuriel", "Aniel", "Rafael", "Gabriel",
+            "Shamsiel", "Raguel", "Uriel", "Azrael", "Sariel"
+        };
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> distribution(0, nombres.size() - 1);
+
+        int indice = distribution(gen);
+        return nombres[indice];
+    }
+
+    void salvacion(HeapInfierno* heapInfierno, int niveles, int& almasCielo) {
+        ofstream archivo("LogSalvacion_"+obtenerHoraActual()+".txt");
+        if (archivo.is_open()) {
+            archivo << "Log de Salvación" << std::endl;
+            archivo << "================" << std::endl;
+            archivo << std::endl;
+
+            // 1. Extraer a las personas del infierno
+            for (int nivel = 2; nivel <= niveles; nivel++) {
+                TriarioNodo* generacionActual = new TriarioNodo();
+                generacionActual->angel.nombre;
+                generacionActual->angel.generacion = nivel;
+                generacionActual->angel.version = 1;
+                generacionActual->angel.persona = nullptr;
+
+                int cantidadAngeles = pow(3, nivel); // Calcula la cantidad de ángeles para este nivel
+
+                for (int i = 0; i < cantidadAngeles; i++) {
+                        TriarioNodo* angel = new TriarioNodo();
+                        angel->angel.nombre = obtenerNombreAleatorio();
+                        angel->angel.generacion = nivel;
+                        angel->angel.version = i + 1;
+                        generacionActual->hijos.push_back(angel);
+                    if(!heapInfierno->isEmpty()){
+                        angel->angel.persona = heapInfierno->eliminarPrimero();
+                        angel->angel.persona->angel = angel->angel.nombre;
+                        angel->angel.persona->ubicacion = "Cielo";
+                        angel->angel.persona->horaSalvacion = obtenerHoraActual();
+                        almasCielo++;
+                        archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << " Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
+                    }
+                }
+
+                raiz->hijos.push_back(generacionActual);
+            }
+                archivo << std::endl;
+                archivo << "==================" << std::endl;
+                archivo << std::endl;
+            }else{
+                std::cout << "No se pudo abrir el archivo para escribir el log de salvación." << std::endl;
+            }
+    }
+};
+void guardarInformacionSalvacionRecursivo(TriarioNodo* nodo, std::ofstream& archivo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    if (nodo->angel.persona != nullptr) {
+        archivo << "Nombre del ángel: " << nodo->angel.nombre << std::endl;
+        archivo << "Generación: " << nodo->angel.generacion << std::endl;
+        archivo << "Versión: " << nodo->angel.version << std::endl;
+        archivo << "Nombre de la persona salvada: " << nodo->angel.persona->nombre << std::endl;
+        archivo << std::endl;
+    }
+
+    for (TriarioNodo* hijo : nodo->hijos) {
+        guardarInformacionSalvacionRecursivo(hijo, archivo);
     }
 }
-void generarBitacoraCondenacion2(Demonio& demonio, const string& nombreArchivo) {
+void guardarInformacionSalvacion(ArbolAngel* arbol, const std::string& nombreArchivo) {
+    std::ofstream archivo(nombreArchivo);
+
+    if (archivo.is_open()) {
+        guardarInformacionSalvacionRecursivo(arbol->raiz, archivo);
+        archivo.close();
+    } else {
+        std::cout << "No se pudo abrir el archivo " << nombreArchivo << std::endl;
+    }
+}
+
+
+void generarBitacoraCondenacion(Demonio& demonio, std::ofstream& archivoBitacora) {
     // 1. Crear un nuevo heap para organizar a las personas condenadas
     Heap heapCondenados = demonio.personasCondenadas;
 
     // 2. Transferir personas condenadas al nuevo heap
     for (int i = 0; i < demonio.totalPersonas; i++) {
-        if (demonio.personas[i].estado == "Muerto") {
-            heapCondenados.insertar(&demonio.personas[i]);
-        }
-    }
-
-    // 3. Abrir un archivo de texto para escribir la bitácora
-    ofstream archivoBitacora(nombreArchivo);
-    if (archivoBitacora.is_open()) {
-        archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonio.nombre << endl;
-
-        // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
-        while (!heapCondenados.estaVacio()) {
-            Persona* personaCondenada = heapCondenados.extraerPrimero();
-            archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
-            archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << endl;
-            archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
-            archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
-            archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
-            archivoBitacora << "----------------------------" << endl;
-        }
-
-        archivoBitacora.close();
-        cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << endl;
-    } else {
-        cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
-    }
-}
-void generarBitacoraCondenacion3(Demonio& demonio, std::ofstream& archivoBitacora) {
-    // 1. Crear un nuevo heap para organizar a las personas condenadas
-    Heap heapCondenados = demonio.personasCondenadas;
-
-    // 2. Transferir personas condenadas al nuevo heap
-    for (int i = 0; i < demonio.totalPersonas; i++) {
-        if (demonio.personas[i].estado == "Muerto" && demonio.personas[i].demonio == demonio.nombre) {
+        if (demonio.personas[i].estado == "Muerto" && demonio.personas[i].demonio == demonio.nombre && demonio.personas[i].ubicacion =="Infierno") {
             heapCondenados.insertar(&demonio.personas[i]);
         }
     }
@@ -720,7 +994,7 @@ void generarBitacoraParaTodosLosDemoniosUnificada(Demonio** demonios, int numDem
             archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonios[i]->nombre << std::endl;
             archivoBitacora << "--------------------------------------" << std::endl;
             // Llama a la función original para generar la bitácora de este demonio
-            generarBitacoraCondenacion3(*demonios[i], archivoBitacora);
+            generarBitacoraCondenacion(*demonios[i], archivoBitacora);
         }
 
         archivoBitacora.close();
@@ -729,50 +1003,11 @@ void generarBitacoraParaTodosLosDemoniosUnificada(Demonio** demonios, int numDem
         std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
     }
 }
-
-
-void generarBitacoraParaTodosLosDemonios(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
-    // Abre el archivo en modo "append" para que cada demonio agregue su bitácora al final.
-    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
-
-    if (archivoBitacora.is_open()) {
-        // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
-        for (int i = 0; i < numDemonios; i++) {
-            archivoBitacora << "--------------------------------------" << std::endl;
-            generarBitacoraCondenacion(*demonios[i], nombreArchivo);
-        }
-
-        archivoBitacora.close();
-        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
-    } else {
-        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
-    }
-}
-void generarBitacoraParaTodosLosDemonios2(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
-    // Abre el archivo en modo "append" para que cada demonio agregue su bitácora al final.
-    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
-
-    if (archivoBitacora.is_open()) {
-        // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
-        for (int i = 0; i < numDemonios; i++) {
-            archivoBitacora << "--------------------------------------" << std::endl;
-            generarBitacoraCondenacion2(*demonios[i], nombreArchivo);
-        }
-
-        archivoBitacora.close();
-        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
-    } else {
-        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
-    }
-}
-
-
-
-
 
 struct Mundo{
     Persona* personas;
     int totalPersonas;
+    int totalPersonasVivas;
     int generacion;
     int humanosConAmigos;
     int totalNombres;
@@ -784,16 +1019,19 @@ struct Mundo{
     int almasCielo = 0;
     int almasInfierno = 0;
     Demonio** demonios;
+    ArbolAngel* angeles;
     string* nombres;
     string* apellidos;
     string* paises;
     string* creencias;
     string* profesiones;
     TreeNode* root;
+    HeapInfierno * infierno;
 
 // Calcular la cantidad de niveles necesarios
     Mundo(){
         totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
+        totalPersonasVivas = 0;
         generacion = 0;
         humanosConAmigos = 0;
         personas = new Persona[100000];
@@ -803,6 +1041,7 @@ struct Mundo{
         creencias = cargarArchivo(10, totalCreencias, "/creencias.txt");
         profesiones = cargarArchivo(20, totalProfesiones, "/profesiones.txt");
         demonios = new Demonio*[7]; // Reservamos espacio para 7 demonios
+        angeles = new ArbolAngel();
         demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
         demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
         demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
@@ -811,6 +1050,7 @@ struct Mundo{
         demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
         demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);
         root = NULL;    
+        infierno = new HeapInfierno(100000);
     }
 
 
@@ -825,13 +1065,15 @@ struct Mundo{
         creencias = cargarArchivo(10, totalCreencias, "/creencias.txt");
         profesiones = cargarArchivo(20, totalProfesiones, "/profesiones.txt");
         demonios = new Demonio*[7]; // Reservamos espacio para 7 demonios
+        angeles = new ArbolAngel();
         demonios[0] = new Demonio("Asmodeo", 0, personas,totalPersonas);
         demonios[1] = new Demonio("Belfegor", 1, personas,totalPersonas);
         demonios[2] = new Demonio("Satán", 2, personas,totalPersonas);
         demonios[3] = new Demonio("Lucifer", 3, personas,totalPersonas);
         demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
         demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
-        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);    
+        demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas); 
+        infierno = new HeapInfierno(100000);   
     }
     void generarPersonasMundo(int personasAGenerar){
         generarPersonas(totalPersonas, generacion, personasAGenerar, personas, nombres, apellidos, paises, creencias, profesiones);
@@ -861,21 +1103,12 @@ struct Mundo{
     void publicarEnRedSocial(int redSocial, Persona persona){
         string nombreRedes[] = {"Tinder", "iFood", "Twitter", "Instagram", "Facebook", "LinkedIn", "Netflix"};
         string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
-        cout << "El humano: " << persona.id << ". " << persona.nombre << " " << persona.apellido << " Ha hecho una nueva publicacion en: " << nombreRedes[redSocial]<< endl;
-        cout <<" Fanastimo de: " << nombreRedes[redSocial] << " = " << persona.obtenerFavoritismo(redSocial) << endl;
         Nodo * aux = persona.amigos->amigo;
         if(persona.estado =="Vivo"){
             while(aux != NULL){
                 aux->persona->pecados[redSocial] += aux->persona->obtenerFavoritismo(redSocial);
-                cout << "El humano: " << aux->persona->id << ". " << aux->persona->nombre << " " << aux->persona->apellido << " Ha obtenido un nuevo pecado: " << pecados[redSocial] << endl;
-                for(int i = 0;i<7; i++){
-                    cout << " " << pecados[i] << ": " << aux->persona->pecados[i];
-                }
-                cout << endl;
                 aux = aux->siguiente;
             }
-        }else{
-            cout << "La persona seleccionada esta muerta, y por lo tanto no puede publicar" << endl;
         }
     }
     void publicarEnRedSocialPorReligion(string religion){
@@ -888,23 +1121,13 @@ struct Mundo{
                 cantidadPublicaciones++;
             }
         }
-        cout << "las personas del la religion " << religion << " han hecho " << cantidadPublicaciones << " publicaciones en su red social social favorita" << endl;
     }
     void publicarEnRedesPorProfesion(string profesion, int nRedesFavoritas) {
         
         for (int i = 0; i < totalPersonas; i++) {
             if (personas[i].profesion == profesion && personas[i].estado == "Vivo") {
-                for(int k=0; k<7; k++){
-                    cout << personas[i].pecados[k] << ", ";
-                }
-                cout << endl;
-
                 // Obtener los índices de las n redes sociales favoritas de la persona
                 int* indicesFavoritos = personas[i].obtenerIndicesRedesFavoritas();
-                for(int j=0; j <7; j++){
-                    cout << indicesFavoritos[j] << ", ";
-                }
-                cout << endl;
                 // Publicar en las n redes sociales favoritas de la persona
                 for (int k = 0; k < nRedesFavoritas; k++) {
                     int redSocial = indicesFavoritos[k];
@@ -936,7 +1159,7 @@ struct Mundo{
         }
     }
     void generarTxtInfierno(int numDemonios, const string& nombreArchivo){
-    std::ofstream archivoBitacora(nombreArchivo, ios::app);
+    ofstream archivoBitacora(nombreArchivo, ios::app);
     string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
     if (archivoBitacora.is_open()) {
         // Genera la bitácora para cada demonio y escribe los registros en el mismo archivo.
@@ -951,12 +1174,16 @@ struct Mundo{
                 Heap * heapFamilia = familia->heap->copiar();
                 while(!heapFamilia->estaVacio()){
                     Persona* personaCondenada = heapFamilia->extraerPrimero();
+                    if(personaCondenada->ubicacion == "Infierno"){
                     archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << endl;
                     archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonios[i]->pecadoCapital] << endl;
                     archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << endl;
                     archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << endl;
                     archivoBitacora << "Demonio: " << personaCondenada->demonio << endl;
                     archivoBitacora << "----------------------------" << endl;
+                    }else{
+                        continue;
+                    }
                 }
                 familia = familia->siguiente;
             }
@@ -1043,29 +1270,6 @@ void menuPublicarEnRedes(Mundo* mundo) {
     }
 }
 void menuConsultas(Mundo* mundo){
-            /*
-        1. Ganador: debe indicar quién ganó la lucha,
-        el Cielo o el Infierno. Esto se determina
-        simplemente el que tenga más almas en el
-        infierno o el Cielo. Debe mostrar el total de
-        humanos, humanos vivos, humanos en el
-        infierno y humanos en el Cielo.
-        
-        
-        2. Consultar un humano por ID, por nombre y
-        apellido. Debe mostrar toda la información
-        del humano, incluido sus amigos con su
-        información. Puede enviarlo a un archivo.
-        
-        
-        5. Buscar familia: Debe dar toda la
-        información y ubicación de los humanos,
-        ordenados de más a menos pecados (no olvide los
-        amigos, imprimir la información de estos). 
-        En la misma consulta, dar el porcentaje de la
-        familia viva, el porcentaje en el cielo y el
-        porcentaje en el infierno
-        */
         cout << "Ingrese una opcion" << endl;
         cout << "1. Mostar ganador" << endl;
         cout << "2. Consultar un humano por ID" << endl;
@@ -1088,12 +1292,28 @@ void menuConsultas(Mundo* mundo){
             cout << "Ingrese el ID del humano que desea seleccionar: ";
             int idHumano = 0;
             cin >> idHumano;
-
             if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
                 mundo->personas[idHumano - 1].imprimir();
+                cout << "---------------------Amigos---------------------";
+                mundo->personas[idHumano - 1].amigos->imprimir();
+                cout << "---------------------Fin de la lista---------------------";
             } else {
                 cout << "ID de humano no válido." << endl;
             }
+        }else if (opcion == "3"){
+            /*
+            5. Buscar familia: Debe dar toda la
+            información y ubicación de los humanos,
+            ordenados de más a menos pecados (no olvide los
+            amigos, imprimir la información de estos). 
+            En la misma consulta, dar el porcentaje de la
+            familia viva, el porcentaje en el cielo y el
+            porcentaje en el infierno
+            Puedo recorrer el array y buscar y ordenarlo :D sale facil.
+            */
+        }else{
+            cout << "Opcion no valida" << endl;
+            menuConsultas(mundo);
         }
 
 }
@@ -1135,7 +1355,11 @@ void menu(Mundo* world){
         cout << "6. Mammon" << endl;
         cout << "7. Abadon" << endl;
         cin >> opcion;
-        world->demonios[stoi(opcion)-1]->condenacion(world->almasInfierno);
+        world->demonios[stoi(opcion)-1]->condenacion(world->almasInfierno,world->totalPersonas, world->infierno);
+        world->infierno->imprimir();
+        menu(world);
+    }else if(opcion == "4"){
+        world->angeles->salvacion(world->infierno, world->angeles->obtenerCantidadNivelesArbol(world->angeles), world->almasCielo);
         menu(world);
     }else if(opcion == "5"){
         world->imprimirPersonas();
@@ -1155,26 +1379,12 @@ void menu(Mundo* world){
         menu(world);
     }
     else if(opcion == "7"){
-        //Bitacora, realizarla
-        //generarBitacoraParaTodosLosDemonios(world->demonios, 7,obtenerHoraActual());
-        /*
-        for(int i = 0; i < 7; i++){
-            generarBitacoraCondenacion2(*world->demonios[i],world->demonios[i]->nombre +" "+ obtenerHoraActual() + ".txt");
-        }*/
-        
-        //generarBitacoraParaTodosLosDemonios2(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        //Bitacora
         generarBitacoraParaTodosLosDemoniosUnificada(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
         menu(world);
     }
     else if(opcion == "8"){
-        //Ver Informacion del Infierno.
-        /*
-            No olvide dar las consultas del Cielo y del
-            Infierno, toda la información de los
-            humanos en estas localidades. Puede
-            enviarlo a un archivo
-        */
-
+        //Infierno
         world->generarTxtInfierno(7, "Infierno " + obtenerHoraActual() + ".txt");
         menu(world);
     }
