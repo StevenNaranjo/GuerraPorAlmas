@@ -1220,21 +1220,21 @@ void generarBitacoraCondenacion(Demonio& demonio, std::ofstream& archivoBitacora
     }
 }
 void generarBitacoraParaTodosLosDemoniosUnificada(Demonio** demonios, int numDemonios, const std::string& nombreArchivo) {
-    std::ofstream archivoBitacora(nombreArchivo, std::ios::app);
+    ofstream archivoBitacora(nombreArchivo, std::ios::app);
 
     if (archivoBitacora.is_open()) {
         for (int i = 0; i < numDemonios; i++) {
-            archivoBitacora << "--------------------------------------" << std::endl;
-            archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonios[i]->nombre << std::endl;
-            archivoBitacora << "--------------------------------------" << std::endl;
+            archivoBitacora << "--------------------------------------" << endl;
+            archivoBitacora << "Bitácora de Condenación para el Demonio: " << demonios[i]->nombre << endl;
+            archivoBitacora << "--------------------------------------" << endl;
             // Llama a la función original para generar la bitácora de este demonio
             generarBitacoraCondenacion(*demonios[i], archivoBitacora);
         }
 
         archivoBitacora.close();
-        std::cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << std::endl;
+        cout << "Bitácora generada con éxito en el archivo: " << nombreArchivo << endl;
     } else {
-        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+        cout << "No se pudo abrir el archivo para escribir la bitácora." << endl;
     }
 }
 
@@ -1428,7 +1428,7 @@ struct Mundo{
         }
         archivoBitacora.close();
     }else {
-        std::cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
+        cout << "No se pudo abrir el archivo para escribir la bitácora." << std::endl;
     }
 
 
@@ -1508,7 +1508,7 @@ void menuPublicarEnRedes(Mundo* mundo) {
         cout << "Opción no válida. Por favor, elige una opción válida." << endl;
     }
 }
-void menuConsultas(Mundo* mundo){
+void menuConsultas(Mundo* mundo){   
         cout << "Ingrese una opcion" << endl;
         cout << "1. Mostar ganador" << endl;
         cout << "2. Consultar un humano por ID" << endl;
@@ -1528,35 +1528,142 @@ void menuConsultas(Mundo* mundo){
             cout << "Total de humanos en el cielo: " << mundo->almasCielo << endl;
             cout << "Total de humanos en el infierno: " << mundo->almasInfierno << endl;
         }else if(opcion == "2"){
-            cout << "Ingrese el ID del humano que desea seleccionar: ";
+            cout << "Ingrese el ID del humano que desea seleccionar (Digite un numero entre 1 y " << to_string(mundo->totalPersonas) << ")" << endl;
             int idHumano = 0;
             cin >> idHumano;
-            if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
-                mundo->personas[idHumano - 1].imprimir();
-                cout << "---------------------Amigos---------------------" << endl;
-                mundo->personas[idHumano - 1].amigos->imprimir();
-                cout << "---------------------Fin de la lista---------------------" << endl;
-            } else {
-                cout << "ID de humano no válido." << endl;
+            ofstream archivo(to_string(idHumano)+obtenerHoraActual());
+            if(archivo.is_open()){
+                if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
+                    mundo->personas[idHumano - 1].imprimir();
+                    archivo << "ID" << mundo->personas[idHumano - 1].id << "\n";
+                    archivo << "Nombre: " << mundo->personas[idHumano - 1].nombre << endl;
+                    archivo << "Apellido: " << mundo->personas[idHumano - 1].apellido << std::endl;
+                    archivo << "País: " << mundo->personas[idHumano - 1].pais << std::endl;
+                    archivo << "Creencia: " << mundo->personas[idHumano - 1].creencia << std::endl;
+                    archivo << "Total pecados: " << mundo->personas[idHumano - 1].totalPecados;
+                    archivo << "Profesión: " << mundo->personas[idHumano - 1].profesion << std::endl;
+                    archivo << "Fecha de nacimiento: " << mundo->personas[idHumano - 1].fechaNacimiento << std::endl;
+                    archivo << "Estado: " << mundo->personas[idHumano - 1].estado << std::endl;
+                    archivo << "Demonio: " << mundo->personas[idHumano - 1].demonio << std::endl;
+                    archivo << "Hora de muerte: " << mundo->personas[idHumano - 1].horaMuerte << std::endl;
+                    archivo << "Ángel: " << mundo->personas[idHumano - 1].angel << std::endl;
+                    archivo << "Ubicación: " << mundo->personas[idHumano - 1].ubicacion << std::endl;
+                    archivo << "--------------------------Amigos---------------" << std::endl;
+                    Nodo* aux = mundo->personas[idHumano - 1].amigos->amigo;
+                        while (aux != NULL) {
+                            archivo << "ID: " << aux->persona->id << std::endl;
+                            archivo << "Nombre: " << aux->persona->nombre << std::endl;
+                            archivo << "Apellido: " << aux->persona->apellido << std::endl;
+                            archivo << "País: " << aux->persona->pais << std::endl;
+                            archivo << "Creencia: " << aux->persona->creencia << std::endl;
+                            archivo << "Profesión: " << aux->persona->profesion << std::endl;
+                            archivo << "Fecha de nacimiento: " << aux->persona->fechaNacimiento << std::endl;
+                            archivo << "Estado: " << aux->persona->estado << std::endl;
+                            archivo << "Demonio: " << aux->persona->demonio << std::endl;
+                            archivo << "Hora de muerte: " << aux->persona->horaMuerte << std::endl;
+                            archivo << "Ángel: " << aux->persona->angel << std::endl;
+                            archivo << "Ubicación: " << aux->persona->ubicacion << "\n";
+                            aux = aux->siguiente;
+                        }
+                    archivo << "--------------------------FIN Amigos---------------" << std::endl;
+                } else {
+                    cout << "ID de humano no válido. (Digite un numero entre 1 y " << to_string(mundo->totalPersonas) << ")" << endl;
+                }
+            }else{
+                cout << "No se pudo abrir el archivo" << endl;
             }
         }else if (opcion == "3"){
-            /*
-            5. Buscar familia: Debe dar toda la
-            información y ubicación de los humanos,
-            ordenados de más a menos pecados (no olvide los
-            amigos, imprimir la información de estos). 
-            En la misma consulta, dar el porcentaje de la
-            familia viva, el porcentaje en el cielo y el
-            porcentaje en el infierno
-            Puedo recorrer el array y buscar y ordenarlo con el heap :D sale facil.
-            */
+            string apellido;
+            string pais;
+            cout << "Ingrese el apellido de la familia que desea buscar: ";
+            cin >> apellido;
+            cout << "Ingrese el pais de la familia que desea buscar: ";
+            cin >> pais;
+            string hora = obtenerHoraActual();
+            string nombreArchivo = apellido + " " + pais + "-" + hora + ".txt";
+            HeapInfierno familia(100000);
+            int totalFamilia = 0;
+            int familiaEnCielo = 0;
+            int familiaViva=0;
+            int familiaEnInfierno = 0;
+            Heap* heapHumanos = new Heap(0, mundo->totalPersonas);
+            for (int i = 0; i < mundo->totalPersonas; i++) {
+                if(mundo->personas[i].apellido==apellido && mundo->personas[i].pais == pais){
+                    totalFamilia++;
+                    heapHumanos->insertar(&mundo->personas[i]);
+                }
+            }
+            while(!heapHumanos->estaVacio()){
+                Persona* personaFamilia = heapHumanos->extraerPrimero();
+                if(personaFamilia->apellido == apellido && personaFamilia->pais == pais){
+                    if(personaFamilia->ubicacion == "Cielo"){
+                        familiaEnCielo++;
+                    }else if(personaFamilia->ubicacion == "Infierno"){
+                        familiaEnInfierno++;
+                    }else{
+                        familiaViva ++;
+                    }
+                    //totalFamilia ++;
+                    familia.insertar(personaFamilia);
+                }
+            }
+            ofstream archivo(nombreArchivo);
+        if (archivo.is_open()) {
+            archivo << "--------------------------------------" << endl;
+            archivo << "Informacion de la familia " << apellido << " " << pais << endl;
+            archivo<< "--------------------------------------" << endl;
+            cout << familiaEnCielo << " "<< familiaEnInfierno<< " " << familiaViva<< " " << totalFamilia << endl;
+            cout << "Familia viva: " << familiaViva*100%totalFamilia << endl;
+            archivo << "Porcentaje de familia viva: " << (static_cast<double>(familiaViva) / totalFamilia) * 100 << "%" << endl;
+            archivo << "Porcentaje de familia en el cielo: " << (static_cast<double>(familiaEnCielo) / totalFamilia) * 100 << "%" << endl;
+            archivo << "Porcentaje de familia en el infierno: " << (static_cast<double>(familiaEnInfierno) / totalFamilia) * 100 << "%" << endl;
+            while(!familia.isEmpty()) {
+                Persona * familiar = familia.eliminarPrimero();
+                archivo << "ID" << familiar->id << "\n";
+                archivo << "Nombre: " << familiar->nombre << endl;
+                archivo << "Apellido: " << familiar->apellido << std::endl;
+                archivo << "País: " << familiar->pais << std::endl;
+                archivo << "Creencia: " << familiar->creencia << std::endl;
+                archivo << "Total pecados: " << familiar->totalPecados;
+                archivo << "Profesión: " << familiar->profesion << std::endl;
+                archivo << "Fecha de nacimiento: " << familiar->fechaNacimiento << std::endl;
+                archivo << "Estado: " << familiar->estado << std::endl;
+                archivo << "Demonio: " << familiar->demonio << std::endl;
+                archivo << "Hora de muerte: " << familiar->horaMuerte << std::endl;
+                archivo << "Ángel: " << familiar->angel << std::endl;
+                archivo << "Ubicación: " << familiar->ubicacion << std::endl;
+                archivo << "--------------------------Amigos---------------" << std::endl;
+                if (familiar->amigos->amigo == NULL) {
+                    archivo << "No hay amigos" << endl;
+                    continue; //Modificar esto si peta
+                } else {
+                    Nodo* aux = familiar->amigos->amigo;
+                    while (aux != NULL) {
+                        archivo << "ID: " << aux->persona->id << std::endl;
+                        archivo << "Nombre: " << aux->persona->nombre << std::endl;
+                        archivo << "Apellido: " << aux->persona->apellido << std::endl;
+                        archivo << "País: " << aux->persona->pais << std::endl;
+                        archivo << "Creencia: " << aux->persona->creencia << std::endl;
+                        archivo << "Profesión: " << aux->persona->profesion << std::endl;
+                        archivo << "Fecha de nacimiento: " << aux->persona->fechaNacimiento << std::endl;
+                        archivo << "Estado: " << aux->persona->estado << std::endl;
+                        archivo << "Demonio: " << aux->persona->demonio << std::endl;
+                        archivo << "Hora de muerte: " << aux->persona->horaMuerte << std::endl;
+                        archivo << "Ángel: " << aux->persona->angel << std::endl;
+                        archivo << "Ubicación: " << aux->persona->ubicacion << "\n";
+                        aux = aux->siguiente;
+                    }
+                }
+                archivo << "--------------------------FIN Amigos---------------" << std::endl;
+            }
         }else{
             cout << "Opcion no valida" << endl;
             menuConsultas(mundo);
         }
-
+    }
 }
 void menu(Mundo* world){
+    system("clear");
     cout << "Bienvenido al juego de la batalla por las almas" << endl;
     cout << "1. Generar Personas" << endl;
     cout << "2. Publicar en Red Social" << endl;
@@ -1630,21 +1737,9 @@ void menu(Mundo* world){
     else if(opcion == "9"){
         //Ver informacion del cielo
         ofstream archivo("Cielo " + obtenerHoraActual() + ".txt");
-        /*for (int numTabla = 0; numTabla < 1000; numTabla++) {
-        archivo << "Num Tabla #" << numTabla << std::endl;
-        for (int i = 0; i < TAMANO_TABLA_HASH; i++) {
-            NodoAVL* arbol = world->cielo->tabla[i];
-            if (arbol != nullptr) {
-                imprimirEnOrden(arbol, archivo);
-            }
-        }
-
-        archivo << "----------------------------------" << std::endl;
-    }*/
     if (archivo.is_open()) {
         imprimirTablaHashEnOrden(world->cielo, archivo);
         archivo.close();
-        std::cout << "La información se ha guardado en output.txt." << std::endl;
     } else {
         std::cerr << "No se pudo abrir el archivo para escritura." << std::endl;
     }
