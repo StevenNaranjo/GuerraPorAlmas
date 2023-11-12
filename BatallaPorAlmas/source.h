@@ -8,10 +8,12 @@
 #include <time.h>
 #include <ctime>
 #include <random>
+
 #include <algorithm>
 #include <queue>
 #include <thread>
 #include <chrono>
+#define pow2(n) (1 << (n))
 
 // Incluye el archivo Python 
 
@@ -26,7 +28,7 @@ struct Heap;
 struct NodoHeap;
 struct ListaHeaps;
 
-
+const int TAMANO_TABLA_HASH = 1000;
 string obtenerHoraActual();
 string obtenerRuta(string nombreDirectorio);
 string* cargarArchivo(int cantidadDatos, int& totalDatos, string nombreArchivo);
@@ -717,7 +719,7 @@ struct Demonio {
     // 1. Obtener todos los humanos en el heap
 
     Heap* heapHumanos = new Heap(pecadoCapital, totalPersonas);
-    personasCondenadas = Heap(pecadoCapital, 10000);
+    personasCondenadas = Heap(pecadoCapital, 100000);
     for (int i = 0; i < totalPersonas; i++) {
         if (personas[i].estado != "Muerto") {
             heapHumanos->insertar(&personas[i]);
@@ -738,7 +740,6 @@ struct Demonio {
         personaCondenada->horaMuerte = obtenerHoraActual(); // Asegúrate de que esta función esté definida
         personaCondenada->demonio = nombre;
         almasInfierno++;
-        personasVivas--;
 
         // Encontrar o crear la familia correspondiente a la persona condenada
         NodoHeap* familia = encontrarFamilia(personaCondenada->apellido, personaCondenada->pais);
@@ -767,7 +768,7 @@ struct Demonio {
     }
 
     // Limpia la memoria asignada dinámicamente
-    delete heapHumanos;
+    //delete heapHumanos;
 }
 
     void imprimirHeaps() {
@@ -789,6 +790,387 @@ struct Demonio {
         cout << "=====================================" << endl;
     }
 };
+struct NodoPersona {
+    Persona* data;
+    NodoPersona* izquierdo;
+    NodoPersona* derecho;
+    int altura;
+};
+struct AVLTree {
+    NodoPersona* root;
+    AVLTree() {
+        root = nullptr;
+    }
+
+    // Función para obtener la altura de un nodo
+    int altura(NodoPersona* nodo) {
+        if (nodo == nullptr)
+            return 0;
+        return nodo->altura;
+    }
+
+    // Función para obtener el máximo de dos números
+    int max(int a, int b) {
+        return (a > b) ? a : b;
+    }
+
+    // Función para insertar una persona en el árbol AVL
+    NodoPersona* insertar(NodoPersona* nodo, Persona* persona) {
+        if (nodo == nullptr) {
+            NodoPersona* newNodo = new NodoPersona;
+            newNodo->data = persona;
+            newNodo->izquierdo = nullptr;
+            newNodo->derecho = nullptr;
+            newNodo->altura = 1;
+            return newNodo;
+        }
+
+        if (persona->id < nodo->data->id)
+            nodo->izquierdo = insertar(nodo->izquierdo, persona);
+        else if (persona->id > nodo->data->id)
+            nodo->derecho = insertar(nodo->derecho, persona);
+        else
+            return nodo;
+
+        nodo->altura = 1 + max(altura(nodo->izquierdo), altura(nodo->derecho));
+
+        int balance = obtenerBalance(nodo);
+
+        // Casos de rotación
+        if (balance > 1) {
+            if (persona->id < nodo->izquierdo->data->id)
+                return rotarDerecha(nodo);
+            if (persona->id > nodo->izquierdo->data->id) {
+                nodo->izquierdo = rotarIzquierda(nodo->izquierdo);
+                return rotarDerecha(nodo);
+            }
+        }
+        if (balance < -1) {
+            if (persona->id > nodo->derecho->data->id)
+                return rotarIzquierda(nodo);
+            if (persona->id < nodo->derecho->data->id) {
+                nodo->derecho = rotarDerecha(nodo->derecho);
+                return rotarIzquierda(nodo);
+            }
+        }
+
+        return nodo;
+    }
+
+    // Función para obtener el factor de balance de un nodo
+    int obtenerBalance(NodoPersona* nodo) {
+        if (nodo == nullptr)
+            return 0;
+        return altura(nodo->izquierdo) - altura(nodo->derecho);
+    }
+
+    // Función para rotar a la derecha
+    NodoPersona* rotarDerecha(NodoPersona* y) {
+        NodoPersona* x = y->izquierdo;
+        NodoPersona* T2 = x->derecho;
+
+        x->derecho = y;
+        y->izquierdo = T2;
+
+        y->altura = max(altura(y->izquierdo), altura(y->derecho)) + 1;
+        x->altura = max(altura(x->izquierdo), altura(x->derecho)) + 1;
+
+        return x;
+    }
+
+    // Función para rotar a la izquierda
+    NodoPersona* rotarIzquierda(NodoPersona* x) {
+        NodoPersona* y = x->derecho;
+        NodoPersona* T2 = y->izquierdo;
+
+        y->izquierdo = x;
+        x->derecho = T2;
+
+        x->altura = max(altura(x->izquierdo), altura(x->derecho)) + 1;
+        y->altura = max(altura(y->izquierdo), altura(y->derecho)) + 1;
+
+        return y;
+    }
+
+    // Función para buscar una persona por su ID
+    NodoPersona* buscar(NodoPersona* nodo, int id) {
+        if (nodo == nullptr || nodo->data->id == id)
+            return nodo;
+
+        if (id < nodo->data->id)
+            return buscar(nodo->izquierdo, id);
+
+        return buscar(nodo->derecho, id);
+    }
+
+    // Función para imprimir el árbol en orden
+    void inOrden(NodoPersona* nodo) {
+        if (nodo != nullptr) {
+            inOrden(nodo->izquierdo);
+            cout << "ID: " << nodo->data->id << ", Nombre: " << nodo->data->nombre << " " << nodo->data->apellido << endl;
+            inOrden(nodo->derecho);
+        }
+    }
+
+    void insertar(Persona* persona) {
+        root = insertar(root, persona);
+    }
+
+    NodoPersona* buscar(int id) {
+        return buscar(root, id);
+    }
+
+    void imprimirEnOrden() {
+        inOrden(root);
+    }
+        
+    void inOrdenArchivo(NodoPersona* nodo, ofstream& archivo) {
+        if (nodo != nullptr) {
+            inOrdenArchivo(nodo->izquierdo, archivo);
+            archivo << "ID: " << nodo->data->id << ", Nombre: " << nodo->data->nombre << " " << nodo->data->apellido << endl;
+            inOrdenArchivo(nodo->derecho, archivo);
+        }
+    }
+
+    void imprimirEnOrdenEnArchivo(ofstream& archivo) {
+        if (!archivo.is_open()) {
+            cout << "No se pudo abrir el archivo " << endl;
+            return;
+        }
+
+        inOrdenArchivo(root, archivo);
+
+        archivo.close();
+    }
+
+};
+
+struct NodoAVL {
+    Persona* persona;
+    NodoAVL* izquierda;
+    NodoAVL* derecha;
+    int altura;
+    NodoAVL(){
+        persona = nullptr;
+        izquierda = nullptr;
+        derecha = nullptr;
+        altura = 0;
+    }
+};
+struct AVL{
+    NodoAVL* raiz;
+    AVL(){
+        raiz = nullptr;
+    }
+
+};
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int altura(NodoAVL* nodo) {
+    if (nodo == nullptr)
+        return 0;
+    return nodo->altura;
+}
+
+int obtenerBalance(NodoAVL* nodo) {
+    if (nodo == nullptr)
+        return 0;
+    return altura(nodo->izquierda) - altura(nodo->derecha);
+}
+
+NodoAVL* rotacionDerecha(NodoAVL* nodo) {
+    NodoAVL* izquierda = nodo->izquierda;
+    NodoAVL* subarbol = izquierda->derecha;
+
+    izquierda->derecha = nodo;
+    nodo->izquierda = subarbol;
+
+    nodo->altura = max(altura(nodo->izquierda), altura(nodo->derecha)) + 1;
+    izquierda->altura = max(altura(izquierda->izquierda), altura(izquierda->derecha)) + 1;
+
+    return izquierda;
+}
+
+NodoAVL* rotacionIzquierda(NodoAVL* nodo) {
+    NodoAVL* derecha = nodo->derecha;
+    NodoAVL* subarbol = derecha->izquierda;
+
+    derecha->izquierda = nodo;
+    nodo->derecha = subarbol;
+
+    nodo->altura = max(altura(nodo->izquierda), altura(nodo->derecha)) + 1;
+    derecha->altura = max(altura(derecha->izquierda), altura(derecha->derecha)) + 1;
+
+    return derecha;
+}
+
+NodoAVL* insertarEnArbol(NodoAVL* nodo, Persona* persona) {
+    if (nodo == nullptr) {
+        NodoAVL* nuevoNodo = new NodoAVL;
+        nuevoNodo->persona = persona;
+        nuevoNodo->izquierda = nullptr;
+        nuevoNodo->derecha = nullptr;
+        nuevoNodo->altura = 1;
+        return nuevoNodo;
+    }
+
+    if (persona->id < nodo->persona->id) {
+        nodo->izquierda = insertarEnArbol(nodo->izquierda, persona);
+    } else if (persona->id > nodo->persona->id) {
+        nodo->derecha = insertarEnArbol(nodo->derecha, persona);
+    } else {
+        return nodo;  // No se permiten duplicados
+    }
+
+    nodo->altura = 1 + max(altura(nodo->izquierda), altura(nodo->derecha));
+    int balance = obtenerBalance(nodo);
+
+    // Casos de rotación
+    if (balance > 1 && persona->id < nodo->izquierda->persona->id)
+        return rotacionDerecha(nodo);
+    if (balance < -1 && persona->id > nodo->derecha->persona->id)
+        return rotacionIzquierda(nodo);
+    if (balance > 1 && persona->id > nodo->izquierda->persona->id) {
+        nodo->izquierda = rotacionIzquierda(nodo->izquierda);
+        return rotacionDerecha(nodo);
+    }
+    if (balance < -1 && persona->id < nodo->derecha->persona->id) {
+        nodo->derecha = rotacionDerecha(nodo->derecha);
+        return rotacionIzquierda(nodo);
+    }
+
+    return nodo;
+}
+
+void insertarPersona(NodoAVL*& raiz, Persona* persona) {
+    raiz = insertarEnArbol(raiz, persona);
+}
+
+// Función de búsqueda en el árbol AVL
+NodoAVL* buscarPersona(NodoAVL* nodo, int id) {
+    if (nodo == nullptr || nodo->persona->id == id) {
+        return nodo;
+    }
+
+    if (id < nodo->persona->id) {
+        return buscarPersona(nodo->izquierda, id);
+    }
+
+    return buscarPersona(nodo->derecha, id);
+}
+struct NodoHash{
+    int id;
+    AVLTree* arbol;
+    NodoHash(int id){
+        this->id = id;
+        this->arbol = new AVLTree();
+    }
+
+};
+struct TablaHash {
+    NodoHash* tablas[1000];
+    //vector<NodoHash*> tablas[TAMANO_TABLA_HASH];
+
+    TablaHash() {
+        for (int i = 0; i < 1000; i++) {
+            tablas[i] = new NodoHash(i);
+        }
+    }
+
+    int funcionHash(int id) {
+        return id % TAMANO_TABLA_HASH;
+    }
+
+    void insertarPersonaHash(Persona* persona) {
+        int indice = funcionHash(persona->id);
+        persona->imprimir();
+        tablas[indice]->arbol->insertar(persona);
+    }
+};
+void imprimirInOrden(AVLTree* avl, std::ofstream& archivo) {
+    if (avl != NULL) {
+        cout << "croma aqui" << endl;
+        //imprimirInOrden(nodo->izquierda, archivo);
+        cout << "croma aqui" << endl;
+        //archivo << "ID: " << nodo->persona->id << ", Nombre: " << nodo->persona->nombre <<  std::endl;
+        //imprimirInOrden(nodo->derecha, archivo);
+        
+    }else{
+        cout << "no hay nada" << endl;
+        return;
+    }
+}
+void imprimirTablaHashEnOrdenRecursivo(NodoPersona* nodo, std::ofstream& archivo) {
+    if (nodo != nullptr) {
+        imprimirTablaHashEnOrdenRecursivo(nodo->izquierdo, archivo);
+        archivo << "Persona " << nodo->data->id << "\n";
+        imprimirTablaHashEnOrdenRecursivo(nodo->derecho, archivo);
+    }
+}
+void imprimirTablaHashEnOrden(TablaHash* tablaHash, std::ofstream& archivo) {
+    for (int i = 0; i < TAMANO_TABLA_HASH; i++) {
+        archivo << "Tabla Hash #" << i << ":\n";
+        imprimirTablaHashEnOrdenRecursivo(tablaHash->tablas[i]->arbol->root, archivo);
+    }
+}
+
+
+// Función para imprimir el árbol AVL en orden
+/*
+void imprimirEnOrden(NodoAVL* nodo, std::ofstream& archivo) {
+    if (nodo != nullptr) {
+        imprimirEnOrden(nodo->izquierda, archivo);
+        archivo << "ID: " << nodo->persona.id << std::endl;
+        archivo << "Nombre: " << nodo->persona.nombre << std::endl;
+        archivo << "Apellido: " << nodo->persona.apellido << std::endl;
+        archivo << "País: " << nodo->persona.pais << std::endl;
+        archivo << "Creencia: " << nodo->persona.creencia << std::endl;
+        archivo << "Profesión: " << nodo->persona.profesion << std::endl;
+        archivo << "Fecha de nacimiento: " << nodo->persona.fechaNacimiento << std::endl;
+        archivo << "Estado: " << nodo->persona.estado << std::endl;
+        archivo << "Demonio: " << nodo->persona.demonio << std::endl;
+        archivo << "Hora de muerte: " << nodo->persona.horaMuerte << std::endl;
+        archivo << "Ángel: " << nodo->persona.angel << std::endl;
+        archivo << "Ubicación: " << nodo->persona.ubicacion << std::endl;
+        
+        archivo << "--------------------------Amigos---------------" << std::endl;
+        
+        for(int i = 0; i < nodo->persona.cantidadAmigos; i++){
+            archivo << "ID: " << nodo->persona.amigos->amigo->persona->id << std::endl;
+            archivo << "Nombre: " << nodo->persona.amigos->amigo->persona->nombre << std::endl;
+            archivo << "Apellido: " << nodo->persona.amigos->amigo->persona->apellido << std::endl;
+            archivo << "País: " << nodo->persona.amigos->amigo->persona->pais << std::endl;
+            archivo << "Creencia: " << nodo->persona.amigos->amigo->persona->creencia << std::endl;
+            archivo << "Profesión: " << nodo->persona.amigos->amigo->persona->profesion << std::endl;
+            archivo << "Fecha de nacimiento: " << nodo->persona.amigos->amigo->persona->fechaNacimiento << std::endl;
+            archivo << "Estado: " << nodo->persona.amigos->amigo->persona->estado << std::endl;
+            archivo << "Demonio: " << nodo->persona.amigos->amigo->persona->demonio << std::endl;
+            archivo << "Hora de muerte: " << nodo->persona.amigos->amigo->persona->horaMuerte << std::endl;
+            archivo << "Ángel: " << nodo->persona.amigos->amigo->persona->angel << std::endl;
+            archivo << "Ubicación: " << nodo->persona.amigos->amigo->persona->ubicacion << std::endl;
+            archivo << "--------------------------FIN Amigos---------------" << std::endl;
+        }
+
+        archivo << std::endl;
+        imprimirEnOrden(nodo->derecha, archivo);
+    }
+}
+*/
+/*
+void imprimirEnOrden(NodoAVL* nodo, std::ofstream& archivo) {
+    if (nodo != nullptr) {
+        imprimirEnOrden(nodo->izquierda, archivo);
+        archivo << "Info de mi persona" << nodo->persona->id << std::endl;
+        // Imprimir otros campos de información de la persona
+        archivo << std::endl;
+        imprimirEnOrden(nodo->derecha, archivo);
+    }
+}
+*/
+
 struct Angel{
     string nombre;
     Persona* persona;
@@ -803,13 +1185,14 @@ struct TriarioNodo {
 
 struct ArbolAngel {
     TriarioNodo* raiz;
-
+    int nivel;
     ArbolAngel() {
         raiz = new TriarioNodo();
         raiz->angel.nombre = "Dios";
         raiz->angel.generacion = 0;
         raiz->angel.version = 1;
         raiz->angel.persona = nullptr;
+        nivel = 2;
 
         // Crea los ángeles del segundo nivel
         for (int i = 0; i < 3; i++) {
@@ -891,7 +1274,7 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
         return nombres[indice];
     }
 
-    void salvacion(HeapInfierno* heapInfierno, int niveles, int& almasCielo) {
+    void salvacion(HeapInfierno* heapInfierno, int niveles, int& almasCielo, int& almasInfierno, TablaHash* cielo) {
         ofstream archivo("LogSalvacion_"+obtenerHoraActual()+".txt");
         if (archivo.is_open()) {
             archivo << "Log de Salvación" << std::endl;
@@ -899,7 +1282,7 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
             archivo << std::endl;
 
             // 1. Extraer a las personas del infierno
-            for (int nivel = 2; nivel <= niveles; nivel++) {
+            for (nivel; nivel <= niveles; nivel++) {
                 TriarioNodo* generacionActual = new TriarioNodo();
                 generacionActual->angel.nombre;
                 generacionActual->angel.generacion = nivel;
@@ -920,6 +1303,8 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
                         angel->angel.persona->ubicacion = "Cielo";
                         angel->angel.persona->horaSalvacion = obtenerHoraActual();
                         almasCielo++;
+                        almasInfierno--;
+                        cielo->insertarPersonaHash(angel->angel.persona);
                         archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << " Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
                     }
                 }
@@ -1004,6 +1389,7 @@ void generarBitacoraParaTodosLosDemoniosUnificada(Demonio** demonios, int numDem
     }
 }
 
+
 struct Mundo{
     Persona* personas;
     int totalPersonas;
@@ -1018,6 +1404,7 @@ struct Mundo{
     int cantidadEnArbol = totalPersonas * 0.01;
     int almasCielo = 0;
     int almasInfierno = 0;
+    TablaHash * cielo;
     Demonio** demonios;
     ArbolAngel* angeles;
     string* nombres;
@@ -1051,6 +1438,7 @@ struct Mundo{
         demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas);
         root = NULL;    
         infierno = new HeapInfierno(100000);
+        cielo = new TablaHash();
     }
 
 
@@ -1073,7 +1461,8 @@ struct Mundo{
         demonios[4] = new Demonio("Belcebu", 4, personas,totalPersonas);
         demonios[5] = new Demonio("Mammon", 5, personas,totalPersonas);
         demonios[6] = new Demonio("Abadon", 6, personas,totalPersonas); 
-        infierno = new HeapInfierno(100000);   
+        infierno = new HeapInfierno(100000);
+        cielo = new TablaHash();   
     }
     void generarPersonasMundo(int personasAGenerar){
         generarPersonas(totalPersonas, generacion, personasAGenerar, personas, nombres, apellidos, paises, creencias, profesiones);
@@ -1197,6 +1586,7 @@ struct Mundo{
 }
 };
 
+
 void menuPublicarEnRedes(Mundo* mundo) {
     cout << "Ingrese una opcion" << endl;
     cout << "1. Seleccionar un humano para publicar en una red social particular" << endl;
@@ -1294,9 +1684,9 @@ void menuConsultas(Mundo* mundo){
             cin >> idHumano;
             if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
                 mundo->personas[idHumano - 1].imprimir();
-                cout << "---------------------Amigos---------------------";
+                cout << "---------------------Amigos---------------------" << endl;
                 mundo->personas[idHumano - 1].amigos->imprimir();
-                cout << "---------------------Fin de la lista---------------------";
+                cout << "---------------------Fin de la lista---------------------" << endl;
             } else {
                 cout << "ID de humano no válido." << endl;
             }
@@ -1309,7 +1699,7 @@ void menuConsultas(Mundo* mundo){
             En la misma consulta, dar el porcentaje de la
             familia viva, el porcentaje en el cielo y el
             porcentaje en el infierno
-            Puedo recorrer el array y buscar y ordenarlo :D sale facil.
+            Puedo recorrer el array y buscar y ordenarlo con el heap :D sale facil.
             */
         }else{
             cout << "Opcion no valida" << endl;
@@ -1359,7 +1749,7 @@ void menu(Mundo* world){
         world->infierno->imprimir();
         menu(world);
     }else if(opcion == "4"){
-        world->angeles->salvacion(world->infierno, world->angeles->obtenerCantidadNivelesArbol(world->angeles), world->almasCielo);
+        world->angeles->salvacion(world->infierno, world->angeles->obtenerCantidadNivelesArbol(world->angeles), world->almasCielo, world->almasInfierno, world->cielo);
         menu(world);
     }else if(opcion == "5"){
         world->imprimirPersonas();
@@ -1390,6 +1780,25 @@ void menu(Mundo* world){
     }
     else if(opcion == "9"){
         //Ver informacion del cielo
+        ofstream archivo("Cielo " + obtenerHoraActual() + ".txt");
+        /*for (int numTabla = 0; numTabla < 1000; numTabla++) {
+        archivo << "Num Tabla #" << numTabla << std::endl;
+        for (int i = 0; i < TAMANO_TABLA_HASH; i++) {
+            NodoAVL* arbol = world->cielo->tabla[i];
+            if (arbol != nullptr) {
+                imprimirEnOrden(arbol, archivo);
+            }
+        }
+
+        archivo << "----------------------------------" << std::endl;
+    }*/
+    if (archivo.is_open()) {
+        imprimirTablaHashEnOrden(world->cielo, archivo);
+        archivo.close();
+        std::cout << "La información se ha guardado en output.txt." << std::endl;
+    } else {
+        std::cerr << "No se pudo abrir el archivo para escritura." << std::endl;
+    }
         menu(world);
     }
     else if(opcion == "10"){

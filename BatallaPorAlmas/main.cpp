@@ -4,5 +4,4 @@
 int main() {
     Mundo* world = new Mundo(1000000);
     menu(world);
-    return 0;
 }

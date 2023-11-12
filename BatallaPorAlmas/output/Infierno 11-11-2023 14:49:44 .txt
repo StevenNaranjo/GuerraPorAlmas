@@ -1,0 +1,358 @@
+Personas en el Infierno: 50
+--------------------------------------
+Demonio: Asmodeo (Pecado Capital: Lujuria)
+Familia: Romero (País: Canadá)
+Nombre: Zoé Romero
+Pecado Capital: 28
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Adolfo Romero
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Vega (País: Brasil)
+Nombre: Salomé Vega
+Pecado Capital: 28
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Heriberto Vega
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Molina (País: Noruega)
+Nombre: Giuliana Molina
+Pecado Capital: 28
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Vargas (País: Brasil)
+Nombre: Kenia Vargas
+Pecado Capital: 24
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Guzmán (País: Noruega)
+Nombre: Leyda Guzmán
+Pecado Capital: 24
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Morales (País: Italia)
+Nombre: Borja Morales
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Rivera (País: Italia)
+Nombre: Nicodemo Rivera
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: López (País: Japón)
+Nombre: Bradley López
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Delgado (País: Noruega)
+Nombre: Juan David Delgado
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Torres (País: Noruega)
+Nombre: Ruth Torres
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Fernández (País: Croacia)
+Nombre: Arale Fernández
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Mercedes Fernández
+Pecado Capital: 18
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Morales (País: México)
+Nombre: Francisco Morales
+Pecado Capital: 21
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Castro (País: Canadá)
+Nombre: Wendy Castro
+Pecado Capital: 20
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Dalai Castro
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Díaz (País: Canadá)
+Nombre: Angela Díaz
+Pecado Capital: 20
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: González (País: España)
+Nombre: José luis González
+Pecado Capital: 18
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Vargas (País: México)
+Nombre: Tahiel Vargas
+Pecado Capital: 18
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Romero (País: Japón)
+Nombre: Eyra Romero
+Pecado Capital: 18
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Adrián Romero
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Jiménez (País: Brasil)
+Nombre: Venancio Jiménez
+Pecado Capital: 16
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Felipe Jiménez
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: López (País: Noruega)
+Nombre: Rosendo López
+Pecado Capital: 16
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Rojas (País: Brasil)
+Nombre: Claudia Rojas
+Pecado Capital: 16
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Navarro (País: Canadá)
+Nombre: Mayanin Navarro
+Pecado Capital: 16
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Nombre: Hefziba Navarro
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Díaz (País: Croacia)
+Nombre: Samia Díaz
+Pecado Capital: 15
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Cruz (País: Noruega)
+Nombre: Leyda Cruz
+Pecado Capital: 15
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Cruz (País: Croacia)
+Nombre: Baldomero Cruz
+Pecado Capital: 15
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Rivera (País: Croacia)
+Nombre: Ivan Rivera
+Pecado Capital: 15
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Delgado (País: Italia)
+Nombre: Nadine Delgado
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Mora (País: Canadá)
+Nombre: Amparo Mora
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Delgado (País: España)
+Nombre: João Delgado
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: González (País: Reino Unido)
+Nombre: Metzli González
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Ramírez (País: Reino Unido)
+Nombre: Jerson Ramírez
+Pecado Capital: 14
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: García (País: Brasil)
+Nombre: Demian García
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Naranjo (País: Reino Unido)
+Nombre: Atziri Naranjo
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Vega (País: España)
+Nombre: Acoatl Vega
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Rodríguez (País: Noruega)
+Nombre: Milagros Rodríguez
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: González (País: Croacia)
+Nombre: Gabriela González
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Ortega (País: Canadá)
+Nombre: Aris Ortega
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Herrera (País: Australia)
+Nombre: Jordán Herrera
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Ríos (País: Noruega)
+Nombre: Concepción Ríos
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Díaz (País: Reino Unido)
+Nombre: Luis Fernando Díaz
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: González (País: Canadá)
+Nombre: Catalina González
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Delgado (País: Brasil)
+Nombre: Mei ling Delgado
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Cruz (País: Reino Unido)
+Nombre: Joshua Cruz
+Pecado Capital: 12
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+Familia: Navarro (País: Reino Unido)
+Nombre: Darcy Navarro
+Pecado Capital: 10
+Hora de Muerte: 11-11-2023 14:49:30 
+Ubicación: Infierno
+Demonio: Asmodeo
+----------------------------
+--------------------------------------
+Demonio: Belfegor (Pecado Capital: Gula)
+--------------------------------------
+Demonio: Satán (Pecado Capital: Ira)
+--------------------------------------
+Demonio: Lucifer (Pecado Capital: Soberbia)
+--------------------------------------
+Demonio: Belcebu (Pecado Capital: Envidia)
+--------------------------------------
+Demonio: Mammon (Pecado Capital: Avaricia)
+--------------------------------------
+Demonio: Abadon (Pecado Capital: Pereza)
