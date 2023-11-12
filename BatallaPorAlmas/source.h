@@ -944,123 +944,6 @@ struct AVLTree {
     }
 
 };
-
-struct NodoAVL {
-    Persona* persona;
-    NodoAVL* izquierda;
-    NodoAVL* derecha;
-    int altura;
-    NodoAVL(){
-        persona = nullptr;
-        izquierda = nullptr;
-        derecha = nullptr;
-        altura = 0;
-    }
-};
-struct AVL{
-    NodoAVL* raiz;
-    AVL(){
-        raiz = nullptr;
-    }
-
-};
-
-int max(int a, int b) {
-    return (a > b) ? a : b;
-}
-
-int altura(NodoAVL* nodo) {
-    if (nodo == nullptr)
-        return 0;
-    return nodo->altura;
-}
-
-int obtenerBalance(NodoAVL* nodo) {
-    if (nodo == nullptr)
-        return 0;
-    return altura(nodo->izquierda) - altura(nodo->derecha);
-}
-
-NodoAVL* rotacionDerecha(NodoAVL* nodo) {
-    NodoAVL* izquierda = nodo->izquierda;
-    NodoAVL* subarbol = izquierda->derecha;
-
-    izquierda->derecha = nodo;
-    nodo->izquierda = subarbol;
-
-    nodo->altura = max(altura(nodo->izquierda), altura(nodo->derecha)) + 1;
-    izquierda->altura = max(altura(izquierda->izquierda), altura(izquierda->derecha)) + 1;
-
-    return izquierda;
-}
-
-NodoAVL* rotacionIzquierda(NodoAVL* nodo) {
-    NodoAVL* derecha = nodo->derecha;
-    NodoAVL* subarbol = derecha->izquierda;
-
-    derecha->izquierda = nodo;
-    nodo->derecha = subarbol;
-
-    nodo->altura = max(altura(nodo->izquierda), altura(nodo->derecha)) + 1;
-    derecha->altura = max(altura(derecha->izquierda), altura(derecha->derecha)) + 1;
-
-    return derecha;
-}
-
-NodoAVL* insertarEnArbol(NodoAVL* nodo, Persona* persona) {
-    if (nodo == nullptr) {
-        NodoAVL* nuevoNodo = new NodoAVL;
-        nuevoNodo->persona = persona;
-        nuevoNodo->izquierda = nullptr;
-        nuevoNodo->derecha = nullptr;
-        nuevoNodo->altura = 1;
-        return nuevoNodo;
-    }
-
-    if (persona->id < nodo->persona->id) {
-        nodo->izquierda = insertarEnArbol(nodo->izquierda, persona);
-    } else if (persona->id > nodo->persona->id) {
-        nodo->derecha = insertarEnArbol(nodo->derecha, persona);
-    } else {
-        return nodo;  // No se permiten duplicados
-    }
-
-    nodo->altura = 1 + max(altura(nodo->izquierda), altura(nodo->derecha));
-    int balance = obtenerBalance(nodo);
-
-    // Casos de rotación
-    if (balance > 1 && persona->id < nodo->izquierda->persona->id)
-        return rotacionDerecha(nodo);
-    if (balance < -1 && persona->id > nodo->derecha->persona->id)
-        return rotacionIzquierda(nodo);
-    if (balance > 1 && persona->id > nodo->izquierda->persona->id) {
-        nodo->izquierda = rotacionIzquierda(nodo->izquierda);
-        return rotacionDerecha(nodo);
-    }
-    if (balance < -1 && persona->id < nodo->derecha->persona->id) {
-        nodo->derecha = rotacionDerecha(nodo->derecha);
-        return rotacionIzquierda(nodo);
-    }
-
-    return nodo;
-}
-
-void insertarPersona(NodoAVL*& raiz, Persona* persona) {
-    raiz = insertarEnArbol(raiz, persona);
-}
-
-// Función de búsqueda en el árbol AVL
-NodoAVL* buscarPersona(NodoAVL* nodo, int id) {
-    if (nodo == nullptr || nodo->persona->id == id) {
-        return nodo;
-    }
-
-    if (id < nodo->persona->id) {
-        return buscarPersona(nodo->izquierda, id);
-    }
-
-    return buscarPersona(nodo->derecha, id);
-}
 struct NodoHash{
     int id;
     AVLTree* arbol;
@@ -1090,23 +973,44 @@ struct TablaHash {
         tablas[indice]->arbol->insertar(persona);
     }
 };
-void imprimirInOrden(AVLTree* avl, std::ofstream& archivo) {
-    if (avl != NULL) {
-        cout << "croma aqui" << endl;
-        //imprimirInOrden(nodo->izquierda, archivo);
-        cout << "croma aqui" << endl;
-        //archivo << "ID: " << nodo->persona->id << ", Nombre: " << nodo->persona->nombre <<  std::endl;
-        //imprimirInOrden(nodo->derecha, archivo);
-        
-    }else{
-        cout << "no hay nada" << endl;
-        return;
-    }
-}
 void imprimirTablaHashEnOrdenRecursivo(NodoPersona* nodo, std::ofstream& archivo) {
     if (nodo != nullptr) {
         imprimirTablaHashEnOrdenRecursivo(nodo->izquierdo, archivo);
-        archivo << "Persona " << nodo->data->id << "\n";
+        archivo << "ID" << nodo->data->id << "\n";
+        archivo << "Apellido: " << nodo->data->apellido << std::endl;
+        archivo << "País: " << nodo->data->pais << std::endl;
+        archivo << "Creencia: " << nodo->data->creencia << std::endl;
+        archivo << "Profesión: " << nodo->data->profesion << std::endl;
+        archivo << "Fecha de nacimiento: " << nodo->data->fechaNacimiento << std::endl;
+        archivo << "Estado: " << nodo->data->estado << std::endl;
+        archivo << "Demonio: " << nodo->data->demonio << std::endl;
+        archivo << "Hora de muerte: " << nodo->data->horaMuerte << std::endl;
+        archivo << "Ángel: " << nodo->data->angel << std::endl;
+        archivo << "Ubicación: " << nodo->data->ubicacion << std::endl;
+        archivo << "--------------------------Amigos---------------" << std::endl;
+        
+        if (nodo->data->amigos->amigo == NULL) {
+            cout << "No hay amigos" << endl;
+            return;
+        } else {
+            Nodo* aux = nodo->data->amigos->amigo;
+            while (aux != NULL) {
+                archivo << "ID: " << aux->persona->id << std::endl;
+                archivo << "Nombre: " << aux->persona->nombre << std::endl;
+                archivo << "Apellido: " << aux->persona->apellido << std::endl;
+                archivo << "País: " << aux->persona->pais << std::endl;
+                archivo << "Creencia: " << aux->persona->creencia << std::endl;
+                archivo << "Profesión: " << aux->persona->profesion << std::endl;
+                archivo << "Fecha de nacimiento: " << aux->persona->fechaNacimiento << std::endl;
+                archivo << "Estado: " << aux->persona->estado << std::endl;
+                archivo << "Demonio: " << aux->persona->demonio << std::endl;
+                archivo << "Hora de muerte: " << aux->persona->horaMuerte << std::endl;
+                archivo << "Ángel: " << aux->persona->angel << std::endl;
+                archivo << "Ubicación: " << aux->persona->ubicacion << std::endl;
+                aux = aux->siguiente;
+            }
+        }
+        archivo << "--------------------------FIN Amigos---------------" << std::endl;
         imprimirTablaHashEnOrdenRecursivo(nodo->derecho, archivo);
     }
 }
@@ -1116,61 +1020,6 @@ void imprimirTablaHashEnOrden(TablaHash* tablaHash, std::ofstream& archivo) {
         imprimirTablaHashEnOrdenRecursivo(tablaHash->tablas[i]->arbol->root, archivo);
     }
 }
-
-
-// Función para imprimir el árbol AVL en orden
-/*
-void imprimirEnOrden(NodoAVL* nodo, std::ofstream& archivo) {
-    if (nodo != nullptr) {
-        imprimirEnOrden(nodo->izquierda, archivo);
-        archivo << "ID: " << nodo->persona.id << std::endl;
-        archivo << "Nombre: " << nodo->persona.nombre << std::endl;
-        archivo << "Apellido: " << nodo->persona.apellido << std::endl;
-        archivo << "País: " << nodo->persona.pais << std::endl;
-        archivo << "Creencia: " << nodo->persona.creencia << std::endl;
-        archivo << "Profesión: " << nodo->persona.profesion << std::endl;
-        archivo << "Fecha de nacimiento: " << nodo->persona.fechaNacimiento << std::endl;
-        archivo << "Estado: " << nodo->persona.estado << std::endl;
-        archivo << "Demonio: " << nodo->persona.demonio << std::endl;
-        archivo << "Hora de muerte: " << nodo->persona.horaMuerte << std::endl;
-        archivo << "Ángel: " << nodo->persona.angel << std::endl;
-        archivo << "Ubicación: " << nodo->persona.ubicacion << std::endl;
-        
-        archivo << "--------------------------Amigos---------------" << std::endl;
-        
-        for(int i = 0; i < nodo->persona.cantidadAmigos; i++){
-            archivo << "ID: " << nodo->persona.amigos->amigo->persona->id << std::endl;
-            archivo << "Nombre: " << nodo->persona.amigos->amigo->persona->nombre << std::endl;
-            archivo << "Apellido: " << nodo->persona.amigos->amigo->persona->apellido << std::endl;
-            archivo << "País: " << nodo->persona.amigos->amigo->persona->pais << std::endl;
-            archivo << "Creencia: " << nodo->persona.amigos->amigo->persona->creencia << std::endl;
-            archivo << "Profesión: " << nodo->persona.amigos->amigo->persona->profesion << std::endl;
-            archivo << "Fecha de nacimiento: " << nodo->persona.amigos->amigo->persona->fechaNacimiento << std::endl;
-            archivo << "Estado: " << nodo->persona.amigos->amigo->persona->estado << std::endl;
-            archivo << "Demonio: " << nodo->persona.amigos->amigo->persona->demonio << std::endl;
-            archivo << "Hora de muerte: " << nodo->persona.amigos->amigo->persona->horaMuerte << std::endl;
-            archivo << "Ángel: " << nodo->persona.amigos->amigo->persona->angel << std::endl;
-            archivo << "Ubicación: " << nodo->persona.amigos->amigo->persona->ubicacion << std::endl;
-            archivo << "--------------------------FIN Amigos---------------" << std::endl;
-        }
-
-        archivo << std::endl;
-        imprimirEnOrden(nodo->derecha, archivo);
-    }
-}
-*/
-/*
-void imprimirEnOrden(NodoAVL* nodo, std::ofstream& archivo) {
-    if (nodo != nullptr) {
-        imprimirEnOrden(nodo->izquierda, archivo);
-        archivo << "Info de mi persona" << nodo->persona->id << std::endl;
-        // Imprimir otros campos de información de la persona
-        archivo << std::endl;
-        imprimirEnOrden(nodo->derecha, archivo);
-    }
-}
-*/
-
 struct Angel{
     string nombre;
     Persona* persona;
@@ -1305,7 +1154,7 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
                         almasCielo++;
                         almasInfierno--;
                         cielo->insertarPersonaHash(angel->angel.persona);
-                        archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << " Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
+                        archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << angel->angel.persona->nombre << " " << angel->angel.persona->apellido  << " " << angel->angel.persona->pais << ". Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
                     }
                 }
 
@@ -1351,19 +1200,19 @@ void guardarInformacionSalvacion(ArbolAngel* arbol, const std::string& nombreArc
 void generarBitacoraCondenacion(Demonio& demonio, std::ofstream& archivoBitacora) {
     // 1. Crear un nuevo heap para organizar a las personas condenadas
     Heap heapCondenados = demonio.personasCondenadas;
-
+    string pecados[] = {"Lujuria", "Gula", "Ira", "Soberbia", "Envidia", "Avaricia", "Pereza"};
     // 2. Transferir personas condenadas al nuevo heap
     for (int i = 0; i < demonio.totalPersonas; i++) {
         if (demonio.personas[i].estado == "Muerto" && demonio.personas[i].demonio == demonio.nombre && demonio.personas[i].ubicacion =="Infierno") {
             heapCondenados.insertar(&demonio.personas[i]);
         }
     }
-
+    
     // Extraer y escribir en el archivo las personas condenadas de mayor a menor pecador
     while (!heapCondenados.estaVacio()) {
         Persona* personaCondenada = heapCondenados.extraerPrimero();
         archivoBitacora << "Nombre: " << personaCondenada->nombre << " " << personaCondenada->apellido << std::endl;
-        archivoBitacora << "Pecado Capital: " << personaCondenada->pecados[demonio.pecadoCapital] << std::endl;
+        archivoBitacora << "Condenado por: " << personaCondenada->pecados[demonio.pecadoCapital] << "de " << pecados[demonio.pecadoCapital] << std::endl;
         archivoBitacora << "Hora de Muerte: " << personaCondenada->horaMuerte << std::endl;
         archivoBitacora << "Ubicación: " << personaCondenada->ubicacion << std::endl;
         archivoBitacora << "Demonio: " << personaCondenada->demonio << std::endl;
