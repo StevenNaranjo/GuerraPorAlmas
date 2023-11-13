@@ -15,7 +15,6 @@
 #include <chrono>
 #define pow2(n) (1 << (n))
 
-// Incluye el archivo Python 
 
 using namespace std;
 using namespace filesystem;
@@ -73,7 +72,6 @@ string obtenerFechaActual(){
     return fecha;
 }
 string obtenerRuta(string nombreDirectorio) {
-    // Usar current_path desde el espacio de nombres std::filesystem
     string DirActual = current_path();
     int final = DirActual.find_last_of("/");
     string DirNuevo = DirActual.substr(0, final);
@@ -271,13 +269,12 @@ void generarPersonas(int& totalPersonas, int& generacion, int personasAGenerar, 
     generacion++;
     totalPersonas += personasAGenerar; // Actualizar el contador totalPersonas
 }
-// Define una estructura Nodo que contiene un puntero a Persona y un puntero al siguiente Nodo.
+
 struct Nodo {
     Persona* persona;
     Nodo* siguiente;
 };
 
-// Define una estructura ListaAmigos que mantiene una lista de amigos para una persona.
 struct ListaAmigos {
     Persona* persona;
     Nodo* amigo;
@@ -1266,7 +1263,7 @@ struct Mundo{
 
 // Calcular la cantidad de niveles necesarios
     Mundo(){
-        totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
+        totalPersonas = 0; 
         totalPersonasVivas = 0;
         generacion = 0;
         humanosConAmigos = 0;
@@ -1292,7 +1289,7 @@ struct Mundo{
 
 
     Mundo(int tamañoMundo){
-        totalPersonas = 0;  // Asegúrate de que totalPersonas se inicie en 0
+        totalPersonas = 0; 
         generacion = 0;
         humanosConAmigos = 0;
         personas = new Persona[tamañoMundo];
@@ -1448,7 +1445,6 @@ void menuPublicarEnRedes(Mundo* mundo) {
 
     if (opcion == 1) {
         // Opción 1: Seleccionar un humano para publicar en una red social particular
-        mundo->imprimirPersonas();
         cout << "Ingrese el ID del humano que desea seleccionar: ";
         int idHumano = 0;
         cin >> idHumano;
@@ -1527,14 +1523,16 @@ void menuConsultas(Mundo* mundo){
             cout << "Total de humanos vivos: " << mundo->totalPersonas - mundo->almasCielo - mundo->almasInfierno << endl;
             cout << "Total de humanos en el cielo: " << mundo->almasCielo << endl;
             cout << "Total de humanos en el infierno: " << mundo->almasInfierno << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
         }else if(opcion == "2"){
             cout << "Ingrese el ID del humano que desea seleccionar (Digite un numero entre 1 y " << to_string(mundo->totalPersonas) << ")" << endl;
             int idHumano = 0;
             cin >> idHumano;
-            ofstream archivo(to_string(idHumano)+obtenerHoraActual());
+            ofstream archivo("("+to_string(idHumano)+")"+obtenerHoraActual()+".txt");
             if(archivo.is_open()){
                 if (idHumano > 0 && idHumano <= mundo->totalPersonas) {
-                    mundo->personas[idHumano - 1].imprimir();
                     archivo << "ID" << mundo->personas[idHumano - 1].id << "\n";
                     archivo << "Nombre: " << mundo->personas[idHumano - 1].nombre << endl;
                     archivo << "Apellido: " << mundo->personas[idHumano - 1].apellido << std::endl;
@@ -1565,9 +1563,12 @@ void menuConsultas(Mundo* mundo){
                             archivo << "Ubicación: " << aux->persona->ubicacion << "\n";
                             aux = aux->siguiente;
                         }
-                    archivo << "--------------------------FIN Amigos---------------" << std::endl;
+                    archivo << "--------------------------FIN Amigos---------------" << endl;
                 } else {
                     cout << "ID de humano no válido. (Digite un numero entre 1 y " << to_string(mundo->totalPersonas) << ")" << endl;
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    cout << "Presiona Enter para continuar...";
+                    cin.get(); 
                 }
             }else{
                 cout << "No se pudo abrir el archivo" << endl;
@@ -1603,7 +1604,6 @@ void menuConsultas(Mundo* mundo){
                     }else{
                         familiaViva ++;
                     }
-                    //totalFamilia ++;
                     familia.insertar(personaFamilia);
                 }
             }
@@ -1612,11 +1612,13 @@ void menuConsultas(Mundo* mundo){
             archivo << "--------------------------------------" << endl;
             archivo << "Informacion de la familia " << apellido << " " << pais << endl;
             archivo<< "--------------------------------------" << endl;
-            cout << familiaEnCielo << " "<< familiaEnInfierno<< " " << familiaViva<< " " << totalFamilia << endl;
-            cout << "Familia viva: " << familiaViva*100%totalFamilia << endl;
-            archivo << "Porcentaje de familia viva: " << (static_cast<double>(familiaViva) / totalFamilia) * 100 << "%" << endl;
-            archivo << "Porcentaje de familia en el cielo: " << (static_cast<double>(familiaEnCielo) / totalFamilia) * 100 << "%" << endl;
-            archivo << "Porcentaje de familia en el infierno: " << (static_cast<double>(familiaEnInfierno) / totalFamilia) * 100 << "%" << endl;
+            if(totalFamilia!= 0){
+                archivo << "Porcentaje de familia viva: " << (static_cast<double>(familiaViva) / totalFamilia) * 100 << "%" << endl;
+                archivo << "Porcentaje de familia en el cielo: " << (static_cast<double>(familiaEnCielo) / totalFamilia) * 100 << "%" << endl;
+                archivo << "Porcentaje de familia en el infierno: " << (static_cast<double>(familiaEnInfierno) / totalFamilia) * 100 << "%" << endl;
+            }else{
+                archivo << "La familia no existe "<< endl;
+            }
             while(!familia.isEmpty()) {
                 Persona * familiar = familia.eliminarPrimero();
                 archivo << "ID" << familiar->id << "\n";
@@ -1687,67 +1689,154 @@ void menu(Mundo* world){
         cout << "Se han generado " << cantidad << " personas" << endl;
         menu(world);
     }else if(opcion == "2"){
-        menuPublicarEnRedes(world);
+        if(world->totalPersonas != 0){
+            menuPublicarEnRedes(world);
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }else if(opcion == "3"){
         //Bitacora, realizarla
-        string opcion;
-        cout << "Ingrese el nombre del demonio que desea condenar" << endl;
-        cout << "1. Asmodeo" << endl;
-        cout << "2. Belfegor" << endl;
-        cout << "3. Satán" << endl;
-        cout << "4. Lucifer" << endl;
-        cout << "5. Belcebu" << endl;
-        cout << "6. Mammon" << endl;
-        cout << "7. Abadon" << endl;
-        cin >> opcion;
-        world->demonios[stoi(opcion)-1]->condenacion(world->almasInfierno,world->totalPersonas, world->infierno);
-        world->infierno->imprimir();
+        if(world->totalPersonas != 0){
+            string opcion;
+            cout << "Ingrese el nombre del demonio que desea condenar" << endl;
+            cout << "1. Asmodeo" << endl;
+            cout << "2. Belfegor" << endl;
+            cout << "3. Satán" << endl;
+            cout << "4. Lucifer" << endl;
+            cout << "5. Belcebu" << endl;
+            cout << "6. Mammon" << endl;
+            cout << "7. Abadon" << endl;
+            cin >> opcion;
+            world->demonios[stoi(opcion)-1]->condenacion(world->almasInfierno,world->totalPersonas, world->infierno);
+            world->infierno->imprimir();
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }else if(opcion == "4"){
-        world->angeles->salvacion(world->infierno, world->angeles->obtenerCantidadNivelesArbol(world->angeles), world->almasCielo, world->almasInfierno, world->cielo);
+        if(world->totalPersonas != 0){
+            world->angeles->salvacion(world->infierno, world->angeles->obtenerCantidadNivelesArbol(world->angeles), world->almasCielo, world->almasInfierno, world->cielo);
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }else if(opcion == "5"){
-        world->imprimirPersonas();
+        if(world->totalPersonas != 0){
+            ofstream archivo("ImprimirPersonas"+obtenerHoraActual()+".txt");
+            if(archivo.is_open()){
+                for(int i =0; i < world->totalPersonas; i++){
+                    archivo << "---------------------------------------------------" << endl;
+                    archivo << "ID: " << world->personas[i].id << "\n";
+                    archivo << "Nombre: " << world->personas[i].nombre << endl;
+                    archivo << "Apellido: " << world->personas[i].apellido << std::endl;
+                    archivo << "País: " << world->personas[i].pais << std::endl;
+                    archivo << "Creencia: " << world->personas[i].creencia << std::endl;
+                    archivo << "Total pecados: " << world->personas[i].totalPecados;
+                    archivo << "Profesión: " << world->personas[i].profesion << std::endl;
+                    archivo << "Fecha de nacimiento: " << world->personas[i].fechaNacimiento << std::endl;
+                    archivo << "Estado: " << world->personas[i].estado << std::endl;
+                    archivo << "Demonio: " << world->personas[i].demonio << std::endl;
+                    archivo << "Hora de muerte: " << world->personas[i].horaMuerte << std::endl;
+                    archivo << "Ángel: " << world->personas[i].angel << std::endl;
+                    archivo << "Ubicación: " << world->personas[i].ubicacion << std::endl;
+                    archivo << "---------------------------------------------------" << endl;
+                }
+            }else{
+                cout << "No se pudo abrir el archivo" << endl;
+            }
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }else if(opcion == "6"){
-        TreeNode* root = construirABB(0, world->totalPersonas - 1, world->personas);
-        int totalNodos = world->totalPersonas / 100 + 1; // 1% de totalPersonas + 1
-        int* indices = new int[totalNodos];
-        int niveles = calcularCantidadNiveles(totalNodos);
-        int totalPersonas = cantidadNodos(root);
-        int totalNodosArbol = pow(2,niveles)-1;
-        cout << "Cantidad de niveles del arbol: " << niveles << endl;
-        cout << "Cantidad de nodos del arbol: " << totalNodosArbol << endl;
-        cout << "Cantidad de personas en el arbol: " << totalPersonas << endl;
-        imprimirUltimoNivel(root, niveles - 1, 0, indices);
-        delete root;
+        if(world->totalPersonas != 0){
+            TreeNode* root = construirABB(0, world->totalPersonas - 1, world->personas);
+            int totalNodos = world->totalPersonas / 100 + 1; // 1% de totalPersonas + 1
+            int* indices = new int[totalNodos];
+            int niveles = calcularCantidadNiveles(totalNodos);
+            int totalPersonas = cantidadNodos(root);
+            int totalNodosArbol = pow(2,niveles)-1;
+            cout << "Cantidad de niveles del arbol: " << niveles << endl;
+            cout << "Cantidad de nodos del arbol: " << totalNodosArbol << endl;
+            cout << "Cantidad de personas en el arbol: " << totalPersonas << endl;
+            imprimirUltimoNivel(root, niveles - 1, 0, indices);
+            delete root;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }
     else if(opcion == "7"){
         //Bitacora
-        generarBitacoraParaTodosLosDemoniosUnificada(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        if(world->totalPersonas != 0){
+            generarBitacoraParaTodosLosDemoniosUnificada(world->demonios, 7, "BITACORA "+ obtenerHoraActual() + ".txt");
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }
     else if(opcion == "8"){
         //Infierno
-        world->generarTxtInfierno(7, "Infierno " + obtenerHoraActual() + ".txt");
+        if(world->totalPersonas != 0){
+            world->generarTxtInfierno(7, "Infierno " + obtenerHoraActual() + ".txt");
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }
     else if(opcion == "9"){
-        //Ver informacion del cielo
-        ofstream archivo("Cielo " + obtenerHoraActual() + ".txt");
-    if (archivo.is_open()) {
-        imprimirTablaHashEnOrden(world->cielo, archivo);
-        archivo.close();
-    } else {
-        std::cerr << "No se pudo abrir el archivo para escritura." << std::endl;
-    }
+        //Ver informacion del cielo'
+        if(world->totalPersonas != 0){
+            ofstream archivo("Cielo " + obtenerHoraActual() + ".txt");
+            if (archivo.is_open()) {
+                imprimirTablaHashEnOrden(world->cielo, archivo);
+                archivo.close();
+            } else {
+                std::cerr << "No se pudo abrir el archivo para escritura." << std::endl;
+            }
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }
     else if(opcion == "10"){
         //Conultas
-        menuConsultas(world);
+        if(world->totalPersonas != 0){
+            menuConsultas(world);
+        }else{
+            cout << "Aun no se han generado personas" << endl;
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Presiona Enter para continuar...";
+            cin.get(); 
+        }
         menu(world);
     }
     else if(opcion == "11"){
