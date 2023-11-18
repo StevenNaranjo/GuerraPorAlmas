@@ -1,3 +1,0 @@
-Cantidad de niveles del arbol: 8
-Cantidad de nodos del arbol: 127
-Cantidad de personas en el arbol: 10000

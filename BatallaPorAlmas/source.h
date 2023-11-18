@@ -1128,15 +1128,16 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
             archivo << std::endl;
 
             // 1. Extraer a las personas del infierno
-            for (nivel; nivel <= niveles; nivel++) {
+
+            int totalNiveles = nivel+1;
+            for (nivel; nivel <= totalNiveles-1; nivel++) {
                 TriarioNodo* generacionActual = new TriarioNodo();
                 generacionActual->angel.nombre;
                 generacionActual->angel.generacion = nivel;
                 generacionActual->angel.version = 1;
                 generacionActual->angel.persona = nullptr;
-
                 int cantidadAngeles = pow(3, nivel); // Calcula la cantidad de ángeles para este nivel
-
+                archivo << cantidadAngeles <<endl;
                 for (int i = 0; i < cantidadAngeles; i++) {
                         TriarioNodo* angel = new TriarioNodo();
                         angel->angel.nombre = obtenerNombreAleatorio();
@@ -1151,7 +1152,7 @@ int obtenerCantidadNivelesArbol(ArbolAngel* arbol) {
                         almasCielo++;
                         almasInfierno--;
                         cielo->insertarPersonaHash(angel->angel.persona);
-                        archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << angel->angel.persona->nombre << " " << angel->angel.persona->apellido  << " " << angel->angel.persona->pais << ". Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
+                        archivo << obtenerHoraActual() << "Humano: " << angel->angel.persona->id << " " << angel->angel.persona->nombre << " " << angel->angel.persona->apellido  << " " << angel->angel.persona->pais << ". Salva el " << obtenerFechaActual() << " por " << angel->angel.persona->totalPecados <<" pecados. El ángel " << angel->angel.nombre << "(" << angel->angel.version << ")" << " Generacion: " << angel->angel.generacion << endl;
                     }
                 }
 
@@ -1745,6 +1746,7 @@ void menu(Mundo* world){
                     archivo << "País: " << world->personas[i].pais << std::endl;
                     archivo << "Generacion: " << world->personas[i].generacion << endl;
                     archivo << "Creencia: " << world->personas[i].creencia << std::endl;
+                    archivo << "Lujuria: " << world->personas[i].pecados[0] << "Gula: " << world->personas[i].pecados[1]<<" " <<"Ira: " << world->personas[i].pecados[2] <<" "<<"Soberbia: " << world->personas[i].pecados[3]<<" " << "Envidia: " << world->personas[i].pecados[4] << " " <<"Avaricia: " << world->personas[i].pecados[5] << " " << "Pereza: " << world->personas[i].pecados[6] <<endl;
                     archivo << "Total pecados: " << world->personas[i].totalPecados;
                     archivo << "Profesión: " << world->personas[i].profesion << std::endl;
                     archivo << "Fecha de nacimiento: " << world->personas[i].fechaNacimiento << std::endl;
