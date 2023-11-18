@@ -8,7 +8,6 @@
 #include <time.h>
 #include <ctime>
 #include <random>
-
 #include <algorithm>
 #include <queue>
 #include <thread>
@@ -389,6 +388,7 @@ void imprimirUltimoNivel(TreeNode* root, int nivel, int nivelActual, int* indice
     imprimirUltimoNivel(root->left, nivel, nivelActual + 1, indices);
     imprimirUltimoNivel(root->right, nivel, nivelActual + 1, indices);
 }
+
 Persona* buscarPersonaPorID(TreeNode* root, int targetID, Persona* personas) {
     TreeNode* current = root;
     while (current != nullptr) {
@@ -1537,6 +1537,7 @@ void menuConsultas(Mundo* mundo){
                     archivo << "Nombre: " << mundo->personas[idHumano - 1].nombre << endl;
                     archivo << "Apellido: " << mundo->personas[idHumano - 1].apellido << std::endl;
                     archivo << "País: " << mundo->personas[idHumano - 1].pais << std::endl;
+                    archivo << "Generacion: " << mundo->personas[idHumano - 1].generacion << endl;
                     archivo << "Creencia: " << mundo->personas[idHumano - 1].creencia << std::endl;
                     archivo << "Total pecados: " << mundo->personas[idHumano - 1].totalPecados;
                     archivo << "Profesión: " << mundo->personas[idHumano - 1].profesion << std::endl;
@@ -1549,10 +1550,12 @@ void menuConsultas(Mundo* mundo){
                     archivo << "--------------------------Amigos---------------" << std::endl;
                     Nodo* aux = mundo->personas[idHumano - 1].amigos->amigo;
                         while (aux != NULL) {
+                            archivo << "______________________________________________" << endl;
                             archivo << "ID: " << aux->persona->id << std::endl;
                             archivo << "Nombre: " << aux->persona->nombre << std::endl;
                             archivo << "Apellido: " << aux->persona->apellido << std::endl;
                             archivo << "País: " << aux->persona->pais << std::endl;
+                            archivo << "Generacion: " << aux->persona->generacion << endl;
                             archivo << "Creencia: " << aux->persona->creencia << std::endl;
                             archivo << "Profesión: " << aux->persona->profesion << std::endl;
                             archivo << "Fecha de nacimiento: " << aux->persona->fechaNacimiento << std::endl;
@@ -1740,6 +1743,7 @@ void menu(Mundo* world){
                     archivo << "Nombre: " << world->personas[i].nombre << endl;
                     archivo << "Apellido: " << world->personas[i].apellido << std::endl;
                     archivo << "País: " << world->personas[i].pais << std::endl;
+                    archivo << "Generacion: " << world->personas[i].generacion << endl;
                     archivo << "Creencia: " << world->personas[i].creencia << std::endl;
                     archivo << "Total pecados: " << world->personas[i].totalPecados;
                     archivo << "Profesión: " << world->personas[i].profesion << std::endl;
@@ -1763,6 +1767,7 @@ void menu(Mundo* world){
         menu(world);
     }else if(opcion == "6"){
         if(world->totalPersonas != 0){
+            ofstream archivo("ArbolActual" + obtenerHoraActual()+".txt");
             TreeNode* root = construirABB(0, world->totalPersonas - 1, world->personas);
             int totalNodos = world->totalPersonas / 100 + 1; // 1% de totalPersonas + 1
             int* indices = new int[totalNodos];
@@ -1772,6 +1777,9 @@ void menu(Mundo* world){
             cout << "Cantidad de niveles del arbol: " << niveles << endl;
             cout << "Cantidad de nodos del arbol: " << totalNodosArbol << endl;
             cout << "Cantidad de personas en el arbol: " << totalPersonas << endl;
+            archivo << "Cantidad de niveles del arbol: " << niveles << endl;
+            archivo << "Cantidad de nodos del arbol: " << totalNodosArbol << endl;
+            archivo << "Cantidad de personas en el arbol: " << totalPersonas << endl;
             imprimirUltimoNivel(root, niveles - 1, 0, indices);
             delete root;
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
